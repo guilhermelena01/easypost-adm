@@ -1,4 +1,3 @@
-import UseNavigation from "@/hooks/useNavigation";
 import { RestClient } from "@/lib/RestClient/RestClient";
 import { validateEmail } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
@@ -40,7 +39,7 @@ export default function useAuth() {
 
                 setLoading(false);
 
-                router.push("/")
+                router.push("/dashboard")
             })
             .catch(() => {
                 setLoading(false);

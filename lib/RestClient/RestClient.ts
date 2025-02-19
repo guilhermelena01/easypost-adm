@@ -34,4 +34,18 @@ export class RestClient extends AbstractRestClient {
 
         return this.fetchData(url, requestInit, true);
     }
+
+    handleFetchCoupons() {
+        const url = this.getRequestPath(this.COUPON_PATH);
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleRegisterCoupons(payload: object) {
+        const url = this.getRequestPath(this.COUPON_PATH);
+        const requestInit = this.getRequestInitMethodPost(payload);
+
+        return this.fetchData(url, requestInit, true);
+    }
 }

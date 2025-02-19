@@ -27,7 +27,8 @@ export abstract class AbstractRestClient {
     protected TICKET_CHAT_MSG = "/ticketMensagens";
     protected DESIGNER_RATING = "/usuarioRatings";
     protected DATA_TICKETS_PATH = "/ticketArquivos";
-    protected COUPON_PATH = "/cupons/codigo/";
+    protected COUPON_PATH = "/cupons";
+    protected COUPON_WITH_CODE_PATH = "/cupons/codigo/";
     protected DELIVER_FILE = "/entrega/arquivo";
     protected CLIENT_PATH = "/cliente";
     protected ACCEPT_ORDER = "/aceitar";
@@ -85,13 +86,13 @@ export abstract class AbstractRestClient {
         return request
     }
 
-    protected getRequestInitMethodPost(json: string) {
+    protected getRequestInitMethodPost(payload: string) {
         const requestInit: RequestInit = {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer ".concat(this.getToken()),
             },
-            body: json,
+            body: JSON.stringify(payload),
             method: "POST",
         };
 

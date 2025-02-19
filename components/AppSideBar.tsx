@@ -41,7 +41,7 @@ const items = [
   },
   {
     title: "Atendimento helpdesk",
-    url: "/cupons",
+    url: "/atendimento-helpdesk",
     icon: MessageCircleQuestion,
   },
   {
