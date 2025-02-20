@@ -1,8 +1,9 @@
 import { Id, toast } from "react-toastify";
 import { getToastError, getToastSuccess, handleResponseError, resolveRequestError } from "../utils/utils";
+import { PayloadType } from "../RestClient/types";
 
 export abstract class AbstractRestClient {
-    protected BASE_URL = "https://easypostsys.com.br";
+    protected BASE_URL = "https://www.easypostsys.com.br";
     protected FRONT_USER = "frontend@easypost.com.br";
     protected FRONT_PASS = "e@syFront!END"
     protected DEFAULT_PORT = ":8889";
@@ -13,6 +14,7 @@ export abstract class AbstractRestClient {
     protected DELIVER_PATH = "/entregar";
     protected PAYMENT_PATH = "/mp/process_payment";
     protected ORDER_TAG_PATH = "/pedidoTags";
+    protected ORDER_TYPE_PATH = "/pedidoTipos";
     protected CITY_PATH = "/cidades";
     protected ADDRESS_PATH = "/enderecos";
     protected USER_PATH = "/usuarios";
@@ -180,6 +182,17 @@ export abstract class AbstractRestClient {
         };
 
         return requestInit;
+    }
+
+    protected getDefaultRequestInitMethodPostAuthentication(payload: PayloadType) {
+        const request: RequestInit = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(payload)
+        }
+        return request
     }
 
     protected getRequestInitMethodPostWithoutToken(payload: object) {

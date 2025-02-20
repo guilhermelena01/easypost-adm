@@ -22,6 +22,7 @@ export default function UseProduct() {
         setLoading(true)
         restClient.handleRegisterProducts(productPayload)
             .then((res) => {
+                console.log(res)
                 setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL)
             })
             .catch(() => setRegisterStatus(EnumRegisterProductStatus.REGISTER_UNSUCCESSFULL))

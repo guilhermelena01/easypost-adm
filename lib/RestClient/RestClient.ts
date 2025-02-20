@@ -7,9 +7,12 @@ export class RestClient extends AbstractRestClient {
     }
 
     handleLogin(username: string, password: string): Promise<AuthData> {
+        const payload = {
+            username,
+            password
+        }
         const url = this.getRequestPath(this.AUTH_PATH);
-        const authBody = JSON.stringify({ username, password });
-        const requestInit = this.getRequestInitMethodPostWithoutToken(authBody);
+        const requestInit = this.getDefaultRequestInitMethodPostAuthentication(payload);
 
         return this.fetchData(url, requestInit, true);
     }
@@ -22,15 +25,15 @@ export class RestClient extends AbstractRestClient {
     }
 
     handleFetchProducts() {
-        const url = this.getRequestPathApiLocal();
-        const requestInit = this.getDefaultRequestInitMethodGetWithouToken();
+        const url = this.getRequestPath(this.ORDER_TYPE_PATH);
+        const requestInit = this.getDefaultRequestInitMethodGet();
 
         return this.fetchData(url, requestInit, true);
     }
 
     handleRegisterProducts(payload: object) {
-        const url = this.getRequestPathApiLocal();
-        const requestInit = this.getRequestInitMethodPostWithoutToken(payload);
+        const url = this.getRequestPath(this.ORDER_TYPE_PATH);
+        const requestInit = this.getRequestInitMethodPost(payload);
 
         return this.fetchData(url, requestInit, true);
     }

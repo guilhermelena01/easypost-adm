@@ -144,3 +144,4 @@ export function validateEmail(email: string): boolean {
 
   return res.test(String(email).toLowerCase());
 }
+

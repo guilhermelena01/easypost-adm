@@ -1,8 +1,9 @@
 export type Product = {
-    nomeDoProduto: string;
+    id?: number;
     valor: number;
-    prazo: string;
-    statusOrdemDePagamento: string;
+    resolucao: string;
+    cor: string;
+    tempoLimite: number;
     descricao: string;
 }
 

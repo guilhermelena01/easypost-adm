@@ -8,21 +8,23 @@ export default function ProductTable({ data }: ProductTableProps) {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Nome do produto</TableHead>
-                        <TableHead>Valor</TableHead>
-                        <TableHead>Prazo estimado para entrega</TableHead>
-                        <TableHead>Comissão do colaborador</TableHead>
+                        <TableHead>Id</TableHead>
                         <TableHead>Descrição</TableHead>
+                        <TableHead>Resolução</TableHead>
+                        <TableHead>Cor</TableHead>
+                        <TableHead>Tempo limite</TableHead>
+                        <TableHead>Valor</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {data.map((item, idx) => (
                         <TableRow key={idx}>
-                            <TableCell>{item.nomeDoProduto}</TableCell>
-                            <TableCell>{item.valor}</TableCell>
-                            <TableCell>{item.prazo}</TableCell>
-                            <TableCell>{item.statusOrdemDePagamento}</TableCell>
+                            <TableCell>{item.id}</TableCell>
                             <TableCell>{item.descricao}</TableCell>
+                            <TableCell>{item.resolucao ?? "Não definida"}</TableCell>
+                            <TableCell>{item.cor}</TableCell>
+                            <TableCell>{item.tempoLimite}</TableCell>
+                            <TableCell>{item.valor}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

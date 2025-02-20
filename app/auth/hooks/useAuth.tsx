@@ -1,3 +1,5 @@
+"use client"
+
 import { RestClient } from "@/lib/RestClient/RestClient";
 import { validateEmail } from "@/lib/utils/utils";
 import { useRouter } from "next/navigation";
@@ -32,20 +34,24 @@ export default function useAuth() {
 
         restClient.handleLogin(loginPayload.username, loginPayload.password)
             .then(res => {
-                console.log(res)
-                if (res) {
-                    throw Error(res.message);
-                }
-
-                setLoading(false);
-
+                saveTokenAndExpiration(res.token)
                 router.push("/dashboard")
             })
             .catch(() => {
                 setLoading(false);
                 cleanAllFields();
-            });
+            })
+            .finally(() => setLoading(false))
     }
+
+    function saveTokenAndExpiration(token: string) {
+        const expiration = new Date()
+        expiration.setMinutes(expiration.getMinutes() + 15)
+
+        localStorage.setItem("token", token)
+        localStorage.setItem("expiration", expiration.toISOString())
+    }
+
 
     return {
         loading,

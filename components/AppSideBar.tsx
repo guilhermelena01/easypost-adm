@@ -10,7 +10,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { usePathname } from "next/navigation"
 
 // Menu items.
 const items = [
@@ -28,11 +27,6 @@ const items = [
     title: "Produtos",
     url: "/produtos",
     icon: Package,
-  },
-  {
-    title: "Serviços",
-    url: "/servicos",
-    icon: Archive,
   },
   {
     title: "Cupons",

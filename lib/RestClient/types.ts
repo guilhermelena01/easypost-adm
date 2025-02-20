@@ -6,6 +6,11 @@ export type AuthData = {
     token: string;
 };
 
+export type PayloadType = {
+    username: string;
+    password: string
+}
+
 export enum EnumUserType {
     CLIENTE = "CLIENTE",
     FORNECEDOR = "FORNECEDOR",

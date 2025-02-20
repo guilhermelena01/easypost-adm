@@ -5,20 +5,22 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Product } from "../../types/types";
 
 interface ProductDialogFormProps {
     registerProduct: () => void;
     handlePayload: (payload: object) => void;
+    loading: boolean;
 }
 
-export default function ProductDialogForm({ handlePayload, registerProduct }: ProductDialogFormProps) {
+export default function ProductDialogForm({ handlePayload, registerProduct, loading }: ProductDialogFormProps) {
 
-    const [productPayload, setProductPayload] = useState({
-        nome: "",
+    const [productPayload, setProductPayload] = useState<Product>({
+        cor: "",
         descricao: "",
-        prazo: "",
-        valor: "",
-        comissao: ""
+        resolucao: "",
+        tempoLimite: 0,
+        valor: 0
     })
 
     useEffect(() => {
@@ -40,13 +42,13 @@ export default function ProductDialogForm({ handlePayload, registerProduct }: Pr
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name">
-                            Nome
+                            Descrição
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={productPayload.nome}
-                            onChange={(e) => setProductPayload({ ...productPayload, nome: e.target.value })}
-                            placeholder="Insira o nome do produto" />
+                            value={productPayload.descricao}
+                            onChange={(e) => setProductPayload({ ...productPayload, descricao: e.target.value })}
+                            placeholder="Insira a descrição do produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
@@ -60,32 +62,32 @@ export default function ProductDialogForm({ handlePayload, registerProduct }: Pr
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name">
-                            Prazo estimado para entrega
+                            Prazo limite para entrega
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={productPayload.prazo}
-                            onChange={(e) => setProductPayload({ ...productPayload, prazo: e.target.value })}
-                            placeholder="Insira prazo estimado para a entrega do produto" />
+                            value={productPayload.tempoLimite}
+                            onChange={(e) => setProductPayload({ ...productPayload, tempoLimite: e.target.value })}
+                            placeholder="Insira o prazo limite para a entrega do produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
-                            Comissão do colaborador
+                            Cor
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={productPayload.comissao}
-                            onChange={(e) => setProductPayload({ ...productPayload, comissao: e.target.value })}
-                            placeholder="Preencha com o valor da comissão do colaborador" />
+                            value={productPayload.cor}
+                            onChange={(e) => setProductPayload({ ...productPayload, cor: e.target.value })}
+                            placeholder="Preencha com a cor para o produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
-                            Descrição
+                            Resolução
                         </Label>
-                        <Textarea
-                            value={productPayload.descricao}
-                            onChange={(e) => setProductPayload({ ...productPayload, descricao: e.target.value })}
-                            placeholder="Insira uma descrição detalhada sobre o produto que está sendo cadastrado"
+                        <Input
+                            value={productPayload.resolucao}
+                            onChange={(e) => setProductPayload({ ...productPayload, resolucao: e.target.value })}
+                            placeholder="Insira uma resolução para o produto"
                             className="col-span-3" />
                     </div>
                 </div>
