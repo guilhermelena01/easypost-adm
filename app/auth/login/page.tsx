@@ -26,6 +26,7 @@ export default function LoginPage() {
                                 <Input
                                     id="email"
                                     placeholder="Digite seu email de cadastro"
+                                    autoComplete="email"
                                     onChange={(e) => setLoginPayload({ ...loginPayload, username: e.target.value })}
                                 />
                             </span>
@@ -33,6 +34,7 @@ export default function LoginPage() {
                                 <Label htmlFor="password">Senha</Label>
                                 <Input
                                     id="password"
+                                    autoComplete="current-password"
                                     placeholder="Digite sua senha"
                                     onChange={(e) => setLoginPayload({ ...loginPayload, password: e.target.value })}
                                 />

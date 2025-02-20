@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ProductTableProps } from "../../types/types";
 
 export default function ProductTable({ data }: ProductTableProps) {
-
+    const bgColor = data && data.length > 0 ? data.find((item) => item.cor) : ""
     return (
         <>
             <Table>
@@ -22,9 +22,9 @@ export default function ProductTable({ data }: ProductTableProps) {
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.descricao}</TableCell>
                             <TableCell>{item.resolucao ?? "Não definida"}</TableCell>
-                            <TableCell>{item.cor}</TableCell>
+                            <TableCell><div className={`h-3 w-3 rounded-full ${!item.cor && "hidden"}`} style={{background: `${item.cor}`}}></div>{!item.cor && "Cor não definida"}</TableCell>
                             <TableCell>{item.tempoLimite}</TableCell>
-                            <TableCell>{item.valor}</TableCell>
+                            <TableCell>{item.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

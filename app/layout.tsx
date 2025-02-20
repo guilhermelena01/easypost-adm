@@ -6,6 +6,7 @@ import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSideBar";
 import { usePathname } from "next/navigation";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
           }
           <main className={`flex w-full overflow-hidden ${isAuthPage ? "" : "justify-center items-center"}`}>
             {children}
+            <ToastContainer/>
           </main>
         </SidebarProvider>
       </body>
