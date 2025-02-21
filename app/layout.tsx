@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSideBar";
 import { usePathname } from "next/navigation";
 import { ToastContainer } from "react-toastify";
+import { AppProvider } from "./context/AppContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,19 +38,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider>
-          {!isAuthPage &&
-            <>
-              <SidebarTrigger />
-              <AppSidebar>
-              </AppSidebar>
-            </>
-          }
-          <main className={`flex w-full overflow-hidden ${isAuthPage ? "" : "justify-center items-center"}`}>
-            {children}
-            <ToastContainer/>
-          </main>
-        </SidebarProvider>
+        <AppProvider>
+          <SidebarProvider>
+            {!isAuthPage &&
+              <>
+                <SidebarTrigger />
+                <AppSidebar>
+                </AppSidebar>
+              </>
+            }
+            <main className={`flex w-full overflow-hidden ${isAuthPage ? "" : "justify-center items-center"}`}>
+              {children}
+              <ToastContainer/>
+            </main>
+          </SidebarProvider>
+        </AppProvider>
       </body>
     </html >
   );

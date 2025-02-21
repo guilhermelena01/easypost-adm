@@ -20,7 +20,7 @@ export enum EnumCouponStatus {
     INATIVO = "INATIVO"
 }
 
-export enum EnumRegisterProductStatus {
+export enum EnumRegisterCouponsStatus {
     REGISTER_SUCCESSFULL = "REGISTER_SUCCESSFULL",
     REGISTER_UNSUCCESSFULL = "REGISTER_UNSUCCESSFULL"
 }

@@ -3,7 +3,8 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Montserrat, Poppins, Roboto } from "next/font/google";
 import { Id, toast, UpdateOptions } from "react-toastify";
-import UseNavigation from "@/hooks/useNavigation";
+import Router from "next/router";
+import { useHandleLogout } from "@/hooks/useHandleLoggout";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -25,15 +26,27 @@ export const poppins = Poppins({
 })
 
 
-export function handleLogout(showToast?: boolean) {
-  localStorage.removeItem("token");
-  localStorage.removeItem("expiration");
+export function getNow(): Date {
+  return new Date(Date.now() - new Date().getTimezoneOffset() * 60 * 1000)
+}
 
-  if (showToast) {
-    toast.error("Sessão expirada, faça o login novamente.");
+export function isValidToken(expiration: string) {
+  const expirationDate = new Date(expiration);
+  const now = new Date();
+
+  return expirationDate > now;
+}
+
+export async function verifyAuth() {
+  const token = localStorage.getItem("token")
+  const expiration = localStorage.getItem("expiration")
+
+  if (!token || !expiration) {
+    return false
   }
 
-  return UseNavigation("/auth");
+  return isValidToken(expiration)
+
 }
 
 export function getToastError(msg: string): UpdateOptions {
@@ -93,7 +106,7 @@ export function handleToastifyError(toastify: any, error: string, throws?: boole
 }
 
 export async function handleResponseError(res: Response, toastify?: Id | null, throws?: boolean) {
-
+  const loggout = useHandleLogout()
   if (res.status == 401) {
     if (res.url.includes("login/auth")) {
       const error = "Erro ao realizar login, verifique suas credenciais.";
@@ -103,7 +116,7 @@ export async function handleResponseError(res: Response, toastify?: Id | null, t
       }
     }
 
-    return await handleLogout();
+    return await loggout();
   }
 
   if (res.status == 403) {
@@ -143,5 +156,10 @@ export function validateEmail(email: string): boolean {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   return res.test(String(email).toLowerCase());
+}
+
+export function formatDate(date: string) {
+  const dateToDateFormat = new Date(date)
+  return dateToDateFormat.toLocaleDateString("pt-br")
 }
 

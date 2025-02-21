@@ -1,7 +1,6 @@
 import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { EnumRegisterProductStatus, Product } from "../types/types"
-import { useRouter } from "next/router"
 
 export default function UseProduct() {
     const restClient = new RestClient()
@@ -22,19 +21,33 @@ export default function UseProduct() {
     function registerProducts(productPayload: Product) {
         setLoading(true)
         restClient.handleRegisterProducts(productPayload)
-            .then((res) => {
+            .then(() => {
                 setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL)
             })
             .catch(() => setRegisterStatus(EnumRegisterProductStatus.REGISTER_UNSUCCESSFULL))
-            .finally(() => setLoading(false))
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
+    function deleteProducts(productId: string | number) {
+        setLoading(true)
+        restClient.handleDeleteProducts(productId)
+            .then(() => {
+                setRegisterStatus(EnumRegisterProductStatus.DELETED_SUCCESSFULL)
+            })
+            .catch(() => setRegisterStatus(EnumRegisterProductStatus.DELETED_UNSUCCESSFULL))
+            .finally(() => {
+                setLoading(false)
+            })
     }
 
     useEffect(() => {
-        if (registerStatus == EnumRegisterProductStatus.REGISTER_SUCCESSFULL) {
+        if (registerStatus == EnumRegisterProductStatus.REGISTER_SUCCESSFULL || registerStatus == EnumRegisterProductStatus.DELETED_SUCCESSFULL) {
             getProducts()
-            return window.location.reload();
+            setRegisterStatus("")
         }
-    },[registerStatus])
+    }, [registerStatus])
 
     useEffect(() => {
         getProducts()
@@ -44,6 +57,7 @@ export default function UseProduct() {
         loading,
         products,
         registerStatus,
-        registerProducts
+        registerProducts,
+        deleteProducts
     }
 }

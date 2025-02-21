@@ -1,17 +1,18 @@
 import { Button } from "@/components/ui/button";
+import { DatePickerDemo } from "@/components/ui/date-picker";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "lucide-react";
+import { LoaderCircle, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface CouponDialogFormProps {
     registerCoupon: () => void;
-    handlePayload: (payload: object) => void;
+    handlePayload: (payload: any) => void;
+    loading: boolean;
 }
 
-export default function CouponDialogForm({ handlePayload, registerCoupon }: CouponDialogFormProps) {
+export default function CouponDialogForm({ handlePayload, registerCoupon, loading }: CouponDialogFormProps) {
 
     const [couponPayload, setCouponPayload] = useState({
         codigo: "",
@@ -71,16 +72,18 @@ export default function CouponDialogForm({ handlePayload, registerCoupon }: Coup
                         <Label htmlFor="username">
                             Data de validade
                         </Label>
-                        <Input
+                        <DatePickerDemo
+                            value={couponPayload.dataValidade}
+                            onChange={(e) => setCouponPayload({ ...couponPayload, dataValidade: e.target.value })}
                             className="col-span-3"
-                            value={couponPayload.comissao}
-                            onChange={(e) => setCouponPayload({ ...couponPayload, comissao: e.target.value })}
-                            placeholder="Preencha com o valor da comissão do colaborador" />
+                        />
+                        {/* <Input
+                            placeholder="Preencha com o valor da comissão do colaborador" /> */}
                     </div>
                 </div>
                 <DialogFooter>
                     <Button onClick={registerCoupon}>
-                        Cadastrar cupom
+                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar cupom"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

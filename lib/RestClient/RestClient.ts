@@ -38,6 +38,13 @@ export class RestClient extends AbstractRestClient {
         return this.fetchData(url, requestInit, true);
     }
 
+    handleDeleteProducts(id: string | number) {
+        const url = this.getRequestPath(this.ORDER_TYPE_PATH).concat(`/${id.toString()}`)
+        const requestInit = this.getRequestInitMethodDelete();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
     handleFetchCoupons() {
         const url = this.getRequestPath(this.COUPON_PATH);
         const requestInit = this.getDefaultRequestInitMethodGet();

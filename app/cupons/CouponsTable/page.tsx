@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CouponsTableProps } from "../types/types";
+import { formatDate } from "@/lib/utils/utils";
 
 export default function CouponTable({ data }: CouponsTableProps) {
 
@@ -22,10 +23,10 @@ export default function CouponTable({ data }: CouponsTableProps) {
                         <TableRow key={idx}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.codigo}</TableCell>
-                            <TableCell>{item.valor}</TableCell>
+                            <TableCell>{item.valor.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</TableCell>
                             <TableCell>{item.quantidade}</TableCell>
-                            <TableCell>{item.dataCriacao}</TableCell>
-                            <TableCell>{item.dataValidade}</TableCell>
+                            <TableCell>{formatDate(item.dataCriacao)}</TableCell>
+                            <TableCell>{formatDate(item.dataValidade)}</TableCell>
                             <TableCell>{item.status}</TableCell>
                         </TableRow>
                     ))}

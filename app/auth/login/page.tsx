@@ -18,7 +18,7 @@ export default function LoginPage() {
                 <section className="md:w-3/5 flex items-center justify-center">
                     <div className="flex flex-col md:w-1/2 md:gap-12">
                         <span>
-                            <h1 className={`text-2xl font-bold ${montserrat.className}`}>Seja bem vindo de volta. Faça seu login agora.</h1>
+                            <h1 className={`text-2xl font-bold ${montserrat.className}`}>Bem vindo de volta. Faça seu login agora.</h1>
                         </span>
                         <span className="gap-4 flex flex-col">
                             <span>
@@ -48,7 +48,7 @@ export default function LoginPage() {
                             </div>
                         </span>
                         <span className="w-full flex flex-col gap-2">
-                            <Button onClick={handleLogin} className={`font-bold w-full ${poppins.className}`}>{loading ? <span className="animate-spin"><LoaderCircle /></span> : "Entrar"}</Button>
+                            <Button type="submit" onClick={handleLogin} className={`font-bold w-full ${poppins.className}`}>{loading ? <span className="animate-spin"><LoaderCircle /></span> : "Entrar"}</Button>
                             <h3>Não tem uma conta? <strong className="cursor-pointer">Registre-se.</strong></h3>
                         </span>
                     </div>

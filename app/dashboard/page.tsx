@@ -1,20 +1,15 @@
 "use client"
 
+import useAppData from "@/hooks/useAppData"
 import { useRouter } from "next/navigation"
 
 export default function Dashboard() {
-    const router = useRouter()
+    const { isAuth, verifyUserAuth } = useAppData()
 
-    const token = localStorage.getItem("token")
-
-    function handleShowToken() {
-        console.log(token)
-    }
     return (
         <>
-            {console.log(token)}
             <p>Dashboard</p>
-            <button onClick={handleShowToken}>Mostrar token</button>
+            {console.log(isAuth)}
         </>
     )
 }
