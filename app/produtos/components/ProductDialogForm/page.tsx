@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoaderCircle, Plus } from "lucide-react";
@@ -91,8 +91,13 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
                     </div>
                 </div>
                 <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="button" variant={"ghost"}>
+                            Cancelar
+                        </Button>
+                    </DialogClose>
                     <Button onClick={registerProduct}>
-                        {loading ? <LoaderCircle className="animate-spin"/> : "Cadastrar produto"}
+                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar produto"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

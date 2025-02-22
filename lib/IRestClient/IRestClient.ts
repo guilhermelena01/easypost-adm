@@ -150,12 +150,13 @@ export abstract class AbstractRestClient {
         return requestInit;
     }
 
-    protected getRequestInitMethodPostWithForm(form: FormData, token: string) {
+    protected getRequestInitMethodPostWithForm(payload: any) {
         const requestInit: RequestInit = {
             headers: {
-                Authorization: "Bearer ".concat(token),
+                "Content-Type": "application/json",
+                "Authorization": "Bearer ".concat(this.getToken()),
             },
-            body: form,
+            body: JSON.stringify(payload),
             method: "POST",
         };
 

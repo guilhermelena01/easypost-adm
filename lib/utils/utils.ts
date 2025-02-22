@@ -3,7 +3,6 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Montserrat, Poppins, Roboto } from "next/font/google";
 import { Id, toast, UpdateOptions } from "react-toastify";
-import Router from "next/router";
 import { useHandleLogout } from "@/hooks/useHandleLoggout";
 
 export function cn(...inputs: ClassValue[]) {

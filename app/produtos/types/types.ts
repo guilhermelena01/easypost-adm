@@ -9,8 +9,6 @@ export type Product = {
 
 export interface ProductTableProps {
     data: Array<Product>;
-    // onEdit: (param: string) => void;
-    // onDelete: (id: string | number) => void;
     showConfirmationModal: (show: boolean) => void;
     setProductId: (id: string | number) => void;
 }

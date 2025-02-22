@@ -1,8 +1,7 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Trash2, Edit } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { ProductTableProps } from "../../types/types";
-import { useState } from "react";
 
 export default function ProductTable({ data, showConfirmationModal, setProductId }: ProductTableProps) {
     function handleConfirmatioModal(id: string | number) {

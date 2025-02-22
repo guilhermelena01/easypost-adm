@@ -1,15 +1,18 @@
-import { Archive, Banknote, BookKey, Calendar, Home, Inbox, MessageCircleQuestion, Package, Search, Settings, Ticket } from "lucide-react"
+import { Archive, Banknote, BookKey, Calendar, Home, Inbox, LogOut, MessageCircleQuestion, Package, Search, Settings, SidebarClose, Ticket } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import Image from "next/image"
+import { Button } from "./ui/button"
 
 // Menu items.
 const items = [
@@ -49,8 +52,10 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+        <SidebarHeader className="p-4">
+          <Image alt="logo easypost" src={"https://res.cloudinary.com/dbyqw2jjq/image/upload/v1740231181/admin_2_rzjb7i.png"} width={160} height={80} />
+        </SidebarHeader>
+        <SidebarGroup className="h-dvh">
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -66,6 +71,12 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <SidebarFooter className="w-full flex items-start">
+          <Button variant={"ghost"}>
+            <LogOut />
+            Loggout
+          </Button>
+        </SidebarFooter>
       </SidebarContent>
     </Sidebar>
   )

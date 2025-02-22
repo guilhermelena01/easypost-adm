@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DatePickerDemo } from "@/components/ui/date-picker";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoaderCircle, Plus } from "lucide-react";
@@ -75,13 +75,16 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
                         <DatePickerDemo
                             value={couponPayload.dataValidade}
                             onChange={(e) => setCouponPayload({ ...couponPayload, dataValidade: e.target.value })}
-                            className="col-span-3"
+                            className="col-span-3 w-full"
                         />
-                        {/* <Input
-                            placeholder="Preencha com o valor da comissão do colaborador" /> */}
                     </div>
                 </div>
                 <DialogFooter>
+                    <DialogClose asChild>
+                        <Button type="button" variant={"ghost"}>
+                            Cancelar
+                        </Button>
+                    </DialogClose>
                     <Button onClick={registerCoupon}>
                         {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar cupom"}
                     </Button>

@@ -5,7 +5,7 @@ import ProductTable from "./components/ProductTable/page";
 import ProductDialogForm from "./components/ProductDialogForm/page";
 import UseProduct from "./hooks/useProduct";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 export default function Produtos() {
@@ -45,6 +45,9 @@ export default function Produtos() {
                         Esta opção é irreversível e definitiva. Você tem certeza que quer excluir permanentemente este produto da nossa base de dados?
                     </DialogDescription>
                     <DialogFooter>
+                        <Button type="button" variant={"ghost"} onClick={() => setShowConfirmationModal(false)}>
+                            Cancelar
+                        </Button>
                         <Button onClick={handleDeleteProducts} variant={"destructive"}>
                             Excluir produto
                         </Button>

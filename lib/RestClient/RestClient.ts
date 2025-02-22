@@ -31,6 +31,13 @@ export class RestClient extends AbstractRestClient {
         return this.fetchData(url, requestInit, true);
     }
 
+    handleFetchOrders() {
+        const url = this.getRequestPath(this.ORDER_PATH).concat("?page=0");
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
     handleRegisterProducts(payload: object) {
         const url = this.getRequestPath(this.ORDER_TYPE_PATH);
         const requestInit = this.getRequestInitMethodPost(payload);
@@ -41,6 +48,13 @@ export class RestClient extends AbstractRestClient {
     handleDeleteProducts(id: string | number) {
         const url = this.getRequestPath(this.ORDER_TYPE_PATH).concat(`/${id.toString()}`)
         const requestInit = this.getRequestInitMethodDelete();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleChangeStatusPayment(id: string | number, payload: {}) {
+        const url = this.getRequestPath(this.ORDER_PATH).concat(`/${id.toString()}`).concat("/alterarPagamento")
+        const requestInit = this.getRequestInitMethodPostWithForm(payload);
 
         return this.fetchData(url, requestInit, true);
     }
