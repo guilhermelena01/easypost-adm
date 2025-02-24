@@ -27,6 +27,7 @@ export default function LoginPage() {
                                     id="email"
                                     placeholder="Digite seu email de cadastro"
                                     autoComplete="email"
+                                    value={loginPayload.username}
                                     onChange={(e) => setLoginPayload({ ...loginPayload, username: e.target.value })}
                                 />
                             </span>
@@ -36,6 +37,7 @@ export default function LoginPage() {
                                     id="password"
                                     autoComplete="current-password"
                                     placeholder="Digite sua senha"
+                                    value={loginPayload.password}
                                     onChange={(e) => setLoginPayload({ ...loginPayload, password: e.target.value })}
                                 />
                             </span>

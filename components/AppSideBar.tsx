@@ -1,4 +1,4 @@
-import { Archive, Banknote, BookKey, Calendar, Home, Inbox, LogOut, MessageCircleQuestion, Package, Search, Settings, SidebarClose, Ticket } from "lucide-react"
+import { Banknote, BookKey, Home, LogOut, MessageCircleQuestion, Package, Ticket } from "lucide-react"
 
 import {
   Sidebar,
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import Image from "next/image"
 import { Button } from "./ui/button"
+import { useRouter } from "next/navigation"
 
 // Menu items.
 const items = [
@@ -48,7 +49,17 @@ const items = [
   },
 ]
 
+
 export function AppSidebar() {
+  const router = useRouter()
+
+  function handleLoggout() {
+    localStorage.removeItem("token")
+    localStorage.removeItem("expiration")
+
+    router.push("auth/login")
+  }
+
   return (
     <Sidebar>
       <SidebarContent>
@@ -72,7 +83,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarFooter className="w-full flex items-start">
-          <Button variant={"ghost"}>
+          <Button onClick={handleLoggout} variant={"ghost"}>
             <LogOut />
             Loggout
           </Button>
