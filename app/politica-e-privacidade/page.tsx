@@ -3,7 +3,7 @@
 
 import useAppData from "@/hooks/useAppData"
 
-export default function Dashboard() {
+export default function PoliticaEPrivacidade() {
     const { isAuth, verifyUserAuth } = useAppData()
 
     return (

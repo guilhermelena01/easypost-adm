@@ -44,7 +44,7 @@ const items = [
   },
   {
     title: "Política e privacidade",
-    url: "/cupons",
+    url: "/politica-e-privacidade",
     icon: BookKey,
   },
 ]

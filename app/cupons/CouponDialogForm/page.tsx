@@ -33,7 +33,7 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
             <DialogTrigger asChild className="fixed right-8 bottom-8">
                 <Button>
                     <Plus />
-                    Novo produto
+                    Novo cupom
                 </Button>
             </DialogTrigger>
             <DialogContent className="w-full">
