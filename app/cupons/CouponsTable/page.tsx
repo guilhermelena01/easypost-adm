@@ -19,17 +19,17 @@ export default function CouponTable({ data }: CouponsTableProps) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, idx) => (
+                    {data && data.length > 0 ? data.map((item, idx) => (
                         <TableRow key={idx}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.codigo}</TableCell>
-                            <TableCell>{item.valor.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}</TableCell>
+                            <TableCell>{item.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</TableCell>
                             <TableCell>{item.quantidade}</TableCell>
                             <TableCell>{formatDate(item.dataCriacao)}</TableCell>
                             <TableCell>{formatDate(item.dataValidade)}</TableCell>
                             <TableCell>{item.status}</TableCell>
                         </TableRow>
-                    ))}
+                    )) : []}
                 </TableBody>
             </Table>
         </>

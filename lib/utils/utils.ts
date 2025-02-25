@@ -162,3 +162,8 @@ export function formatDate(date: string) {
   return dateToDateFormat.toLocaleDateString("pt-br")
 }
 
+export function getImageUrl(imgPath: string) {
+  const formatUrl = imgPath.replace("var/www/", "");
+
+  return "https://www.easypostsys.com.br".concat(formatUrl);
+}

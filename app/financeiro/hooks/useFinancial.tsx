@@ -34,7 +34,7 @@ export default function useFinancial() {
     }
     
     useEffect(() => {
-        if (registerStatus == EnumRegisterOrderStatus.DELETED_SUCCESSFULL) {
+        if (registerStatus == EnumRegisterOrderStatus.DELETED_SUCCESSFULL || registerStatus == EnumRegisterOrderStatus.REGISTER_SUCCESSFULL) {
             getOrders()
         }
     },[registerStatus])

@@ -1,16 +1,37 @@
+"use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { ProductTableProps } from "../../types/types";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export default function ProductTable({ data, showConfirmationModal, setProductId }: ProductTableProps) {
+    const [searchTerm, setSearchTerm] = useState("");
+
     function handleConfirmatioModal(id: string | number) {
         setProductId(id)
         showConfirmationModal(true)
     }
 
+    const dadosFiltrados = data && data.length > 0 ? data
+        .filter(item =>
+            item.cor.toString().includes(searchTerm) ||
+            item.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.tempoLimite.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        ) : []
+
     return (
         <>
+            <div className="w-full flex justify-end gap-4">
+                <Input
+                    type="text"
+                    placeholder="Pesquisar..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-1/4 p-2 border rounded-md shadow-sm"
+                />
+            </div>
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -24,7 +45,7 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.map((item, idx) => (
+                    {dadosFiltrados.map((item, idx) => (
                         <TableRow key={idx}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.descricao}</TableCell>

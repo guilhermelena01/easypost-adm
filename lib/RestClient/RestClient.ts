@@ -1,4 +1,5 @@
 import { AbstractRestClient } from "../IRestClient/IRestClient";
+import { ChatMessagesData } from "../utils/types";
 import { AuthData } from "./types";
 
 export class RestClient extends AbstractRestClient {
@@ -69,6 +70,20 @@ export class RestClient extends AbstractRestClient {
     handleRegisterCoupons(payload: object) {
         const url = this.getRequestPath(this.COUPON_PATH);
         const requestInit = this.getRequestInitMethodPost(payload);
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleFetchTickets() {
+        const url = this.getRequestPath(this.TICKETS_PATH).concat("?page=0");
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleFetchChatMessages(chatId: string, page: string): Promise<ChatMessagesData> {
+        const requestInit = this.getDefaultRequestInitMethodGet();
+        const url = this.getRequestPath(this.CHAT_MSG_PATH.concat("/chat/").concat(chatId), page);
 
         return this.fetchData(url, requestInit, true);
     }

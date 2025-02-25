@@ -22,11 +22,12 @@ export default function Financeiro() {
 
     return (
         <>
-            <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
+            <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8 ml-1">
                 <h1 className={`text-2xl font-bold ${montserrat.className}`}>Financeiro</h1>
                 {orders && orders.length > 0
                     ?
-                    <OrdersTable data={orders}
+                    <OrdersTable
+                        data={orders}
                         setOrderId={setOrderId}
                         showConfirmationModal={setShowConfirmationModal}
                         setSelectedStatusPayment={setSelectedStatusPayment}
@@ -44,7 +45,7 @@ export default function Financeiro() {
                                 Cancelar
                             </Button>
                             <Button onClick={handleChangeStatusPayments} variant={"default"}>
-                                {loading ? <LoaderCircle className="animate-spin"/> : "Alterar status"}
+                                {loading ? <LoaderCircle className="animate-spin" /> : "Alterar status"}
                             </Button>
                         </DialogFooter>
                     </DialogContent>

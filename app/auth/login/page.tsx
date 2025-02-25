@@ -5,12 +5,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { montserrat, poppins } from "@/lib/utils/utils";
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeClosed, LoaderCircle } from "lucide-react";
 import Image from "next/image";
 import useAuth from "../hooks/useAuth";
+import { useState } from "react";
 
 export default function LoginPage() {
     const { handleLogin, loading, loginPayload, setLoginPayload } = useAuth()
+    const [showPassword, setShowPassword] = useState(false)
 
     return (
         <>
@@ -31,22 +33,27 @@ export default function LoginPage() {
                                     onChange={(e) => setLoginPayload({ ...loginPayload, username: e.target.value })}
                                 />
                             </span>
-                            <span>
+                            <span className="relative">
                                 <Label htmlFor="password">Senha</Label>
                                 <Input
+                                    type={showPassword ? "text" : "password"}
                                     id="password"
                                     autoComplete="current-password"
                                     placeholder="Digite sua senha"
                                     value={loginPayload.password}
                                     onChange={(e) => setLoginPayload({ ...loginPayload, password: e.target.value })}
                                 />
+                                <button onClick={() => setShowPassword(!showPassword)} className="absolute right-2 top-8">
+                                    <Eye className={`${showPassword ? "block" : "hidden"}`} width={18}/>
+                                    <EyeClosed className={`${showPassword ? "hidden" : "block"}`} width={18}/>
+                                </button>
                             </span>
                             <div className="w-full flex justify-between">
                                 <span className="gap-1 items-center flex">
                                     <Checkbox />
                                     <Label>Lembrar de mim</Label>
                                 </span>
-                                <p className="text-blue-500 cursor-pointer hover:opacity-80">Esqueceu da senha?</p>
+                                {/* <p className="text-blue-500 cursor-pointer hover:opacity-80">Esqueceu da senha?</p> */}
                             </div>
                         </span>
                         <span className="w-full flex flex-col gap-2">

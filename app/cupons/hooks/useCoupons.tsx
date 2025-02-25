@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { Coupon, EnumRegisterCouponsStatus } from "../types/types"
