@@ -81,6 +81,20 @@ export class RestClient extends AbstractRestClient {
         return this.fetchData(url, requestInit, true);
     }
 
+    handleFetchTicketMensagem() {
+        const url = this.getRequestPath(this.TICKET_CHAT_MSG);
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleFetchTicketMensagemById(ticketID: number) {
+        const url = this.getRequestPath(this.TICKET_CHAT_MSG).concat("/ticket/").concat(`${ticketID}`);
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
     handleFetchChatMessages(chatId: string, page: string): Promise<ChatMessagesData> {
         const requestInit = this.getDefaultRequestInitMethodGet();
         const url = this.getRequestPath(this.CHAT_MSG_PATH.concat("/chat/").concat(chatId), page);

@@ -9,17 +9,15 @@ import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 
 export default function Helpdesk() {
-    const { tickets, getChatData } = useChat()
+    const { tickets, ticketMensagens, ticketMensagensById, getChatData, getTicketMensagensById } = useChat()
 
     const [chatId, setChatId] = useState<number | null>(null)
 
     function handleSelectedChat(id: number) {
         setChatId(id)
 
-        getChatData(chatId)
+        getTicketMensagensById(id)
     }
-
-    // const isSupportContact = 
 
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
@@ -31,12 +29,11 @@ export default function Helpdesk() {
                         className="bg-white"
                     />
                     <Separator />
-                    {tickets && tickets.content.length > 0 ? tickets.content.map((ticket, idx) => (
-                        <div onClick={() => handleSelectedChat(idx)} key={idx} className={`cursor-pointer ${chatId == ticket.id ? "bg-black bg-opacity-5 rounded-lg px-4 py-2" : ""}`}>
-                            <img src={getImageUrl(ticket.usuarioFoto)} />
+                    {ticketMensagens && ticketMensagens.length > 0 ? ticketMensagens.map((ticket, idx) => (
+                        <div onClick={() => handleSelectedChat(ticket.ticket.id)} key={idx} className={`cursor-pointer ${chatId == ticket.id ? "bg-black bg-opacity-5 rounded-lg px-4 py-2" : ""}`}>
+                            <img src={getImageUrl(`${ticket.usuario.urlFoto}`)} />
                             <span className="">
-                                <h2>{ticket.titulo}</h2>
-                                <p className="text-sm text-gray-500">{ticket.ultimaMensagem ?? "Ainda não há mensagens"}</p>
+                                <p>{ticket.mensagem}</p>
                             </span>
                         </div>
                     )) : ""}
@@ -58,7 +55,7 @@ export default function Helpdesk() {
                         <Input className="items-start w-[80%]" />
                         <Button className="w-[15%]">
                             Enviar mensagem
-                            <Send/>
+                            <Send />
                         </Button>
                     </span>
                 </div>
