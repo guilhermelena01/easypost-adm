@@ -1,4 +1,4 @@
-import { Banknote, BookKey, Home, LogOut, MessageCircleQuestion, Package, Ticket } from "lucide-react"
+import { Banknote, BookKey, Home, LogOut, MessageCircleQuestion, Package, Tag, Ticket } from "lucide-react"
 
 import {
   Sidebar,
@@ -43,9 +43,9 @@ const items = [
     icon: MessageCircleQuestion,
   },
   {
-    title: "Política e privacidade",
-    url: "/politica-e-privacidade",
-    icon: BookKey,
+    title: "Tags",
+    url: "/tags",
+    icon: Tag,
   },
 ]
 

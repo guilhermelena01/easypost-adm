@@ -6,9 +6,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
+import LoaderComponent from "@/components/Loader";
 
 export default function Financeiro() {
-    const { loading, orders, handleChangePayment } = useFinancial()
+    const { loading, loadingOrders, orders, handleChangePayment } = useFinancial()
     const [orderId, setOrderId] = useState("")
     const [selectedStatusPayment, setSelectedStatusPayment] = useState("")
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
@@ -24,16 +25,14 @@ export default function Financeiro() {
         <>
             <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8 ml-1">
                 <h1 className={`text-2xl font-bold ${montserrat.className}`}>Financeiro</h1>
-                {orders && orders.length > 0
-                    ?
+                {loadingOrders ? <LoaderComponent /> :
                     <OrdersTable
-                        data={orders}
+                        data={orders!}
                         setOrderId={setOrderId}
                         showConfirmationModal={setShowConfirmationModal}
                         setSelectedStatusPayment={setSelectedStatusPayment}
                     />
-                    :
-                    ""}
+                }
                 <Dialog open={showConfirmationModal}>
                     <DialogContent className="w-[420px]">
                         <DialogTitle>Deseja alterar o status deste pedido?</DialogTitle>

@@ -1,20 +1,18 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CouponsTableProps } from "../types/types";
-import { formatDate } from "@/lib/utils/utils";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import TableSkeleton from "@/components/TableSkeleton";
+import { TagsTableProps } from "../types/types";
 
-export default function CouponTable({ data, loading }: CouponsTableProps) {
+export default function TagTable({ data }: TagsTableProps) {
     const [searchTerm, setSearchTerm] = useState("");
 
     const dadosFiltrados = data && data.length > 0 ? data
         .filter(item =>
             item.id.toString().includes(searchTerm) ||
-            item.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            item.quantidade.toString().toLowerCase().includes(searchTerm.toLowerCase())
+            item.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.cor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            item.sigla.toString().toLowerCase().includes(searchTerm.toLowerCase())
         ) : []
 
     return (
@@ -32,24 +30,18 @@ export default function CouponTable({ data, loading }: CouponsTableProps) {
                 <TableHeader>
                     <TableRow>
                         <TableHead>Id</TableHead>
-                        <TableHead>Código</TableHead>
-                        <TableHead>Valor</TableHead>
-                        <TableHead>Quantidade</TableHead>
-                        <TableHead>Data de criação</TableHead>
-                        <TableHead>Data de validade</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>Descrição</TableHead>
+                        <TableHead>Sigla</TableHead>
+                        <TableHead>Cor</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {dadosFiltrados && dadosFiltrados.length > 0 ? dadosFiltrados.map((item, idx) => (
                         <TableRow key={idx}>
                             <TableCell>{item.id}</TableCell>
-                            <TableCell>{item.codigo}</TableCell>
-                            <TableCell>{item.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</TableCell>
-                            <TableCell>{item.quantidade}</TableCell>
-                            <TableCell>{formatDate(item.dataCriacao)}</TableCell>
-                            <TableCell>{formatDate(item.dataValidade)}</TableCell>
-                            <TableCell>{item.status}</TableCell>
+                            <TableCell>{item.descricao}</TableCell>
+                            <TableCell>{item.sigla}</TableCell>
+                            <TableCell>{item.cor}</TableCell>
                         </TableRow>
                     )) : []}
                 </TableBody>

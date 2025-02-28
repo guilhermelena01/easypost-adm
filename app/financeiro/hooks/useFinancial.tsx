@@ -6,16 +6,17 @@ export default function useFinancial() {
     const restClient = new RestClient()
     const [orders, setOrders] = useState<Array<Order>>()
     const [loading, setLoading] = useState(false)
+    const [loadingOrders, setLoadingOrders] = useState(false)
     const [registerStatus, setRegisterStatus] = useState<EnumRegisterOrderStatus | string>("")
 
     function getOrders() {
-        setLoading(true)
+        setLoadingOrders(true)
         restClient.handleFetchOrders()
             .then(res => {
                 setOrders(res._embedded.pedidoConsultaModelList)
             })
             .catch(err => console.error(err))
-            .finally(() => setLoading(false))
+            .finally(() => setLoadingOrders(false))
     }
 
     function handleChangePayment(orderId: string | number, status: string) {
@@ -32,12 +33,12 @@ export default function useFinancial() {
                 setLoading(false)
             })
     }
-    
+
     useEffect(() => {
         if (registerStatus == EnumRegisterOrderStatus.DELETED_SUCCESSFULL || registerStatus == EnumRegisterOrderStatus.REGISTER_SUCCESSFULL) {
             getOrders()
         }
-    },[registerStatus])
+    }, [registerStatus])
 
     useEffect(() => {
         getOrders()
@@ -46,6 +47,7 @@ export default function useFinancial() {
     return {
         orders,
         loading,
+        loadingOrders,
         handleChangePayment
     }
 }

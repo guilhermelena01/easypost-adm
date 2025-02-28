@@ -219,16 +219,10 @@ export abstract class AbstractRestClient {
         return fetch(url, reqInit)
             .then(res => {
                 if (res.ok) {
-                    if (toastify && toastSuccessMsg) {
-                        toast.update(toastify, getToastSuccess(toastSuccessMsg));
-                    }
-
                     if (res.status == 204) {
                         return;
                     }
-
                     return res.json();
-
                 }
 
                 return handleResponseError(res, toastify, throws);

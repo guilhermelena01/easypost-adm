@@ -12,6 +12,7 @@ export type Coupon = {
 //INTERFACE
 export interface CouponsTableProps {
     data: Array<Coupon>;
+    loading: boolean;
 }
 
 //ENUM

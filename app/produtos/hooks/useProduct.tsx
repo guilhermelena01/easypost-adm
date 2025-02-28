@@ -5,17 +5,18 @@ import { EnumRegisterProductStatus, Product } from "../types/types"
 export default function UseProduct() {
     const restClient = new RestClient()
     const [loading, setLoading] = useState(false)
+    const [loadingProducts, setLoadingProducts] = useState(false)
     const [registerStatus, setRegisterStatus] = useState<EnumRegisterProductStatus | string>("")
     const [products, setProducts] = useState<Array<Product>>([])
 
     function getProducts() {
-        setLoading(true)
+        setLoadingProducts(true)
         restClient.handleFetchProducts()
             .then((res: any) => {
                 setProducts(res)
             })
             .catch((err) => console.error(err))
-            .finally(() => setLoading(false))
+            .finally(() => setLoadingProducts(false))
     }
 
     function registerProducts(productPayload: Product) {
@@ -55,6 +56,7 @@ export default function UseProduct() {
 
     return {
         loading,
+        loadingProducts,
         products,
         registerStatus,
         registerProducts,

@@ -6,17 +6,18 @@ import { Coupon, EnumRegisterCouponsStatus } from "../types/types"
 export default function useCoupons() {
     const restClient = new RestClient()
     const [loading, setLoading] = useState(false)
+    const [loadingCoupons, setLoadingCoupons] = useState(false)
     const [registerStatus, setRegisterStatus] = useState<EnumRegisterCouponsStatus | string>("")
     const [coupons, setCoupons] = useState<Array<Coupon>>([])
 
     function getCoupons() {
-        setLoading(true)
+        setLoadingCoupons(true)
         restClient.handleFetchCoupons()
             .then((res: any) => {
                 setCoupons(res._embedded.cupomModelList)
             })
             .catch((err) => console.error(err))
-            .finally(() => setLoading(false))
+            .finally(() => setLoadingCoupons(false))
     }
 
     function registerCoupons(productPayload: Coupon) {
@@ -44,6 +45,7 @@ export default function useCoupons() {
 
     return {
         loading,
+        loadingCoupons,
         coupons,
         registerStatus,
         registerCoupons,

@@ -101,4 +101,18 @@ export class RestClient extends AbstractRestClient {
 
         return this.fetchData(url, requestInit, true);
     }
+
+    handleFetchTags() {
+        const url = this.getRequestPath(this.ORDER_TAG_PATH);
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleRegisterTags(payload: object) {
+        const url = this.getRequestPath(this.COUPON_PATH);
+        const requestInit = this.getRequestInitMethodPost(payload);
+
+        return this.fetchData(url, requestInit, true);
+    }
 }

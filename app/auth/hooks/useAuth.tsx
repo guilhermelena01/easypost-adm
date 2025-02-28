@@ -34,10 +34,12 @@ export default function useAuth() {
 
         restClient.handleLogin(loginPayload.username, loginPayload.password)
             .then(res => {
+                console.log("aqui", res)
                 saveTokenAndExpiration(res.token)
                 router.push("/dashboard")
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log("aqui embaixo", error)
                 setLoading(false);
                 cleanAllFields();
             })
