@@ -2,6 +2,7 @@
 import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { Coupon, EnumRegisterCouponsStatus } from "../types/types"
+import { unformatCurrency } from "@/lib/utils/utils"
 
 export default function useCoupons() {
     const restClient = new RestClient()
@@ -22,7 +23,14 @@ export default function useCoupons() {
 
     function registerCoupons(productPayload: Coupon) {
         setLoading(true)
-        restClient.handleRegisterCoupons(productPayload)
+        const payloadToSend = {
+            ...productPayload,
+            valor: unformatCurrency(productPayload.valor),
+            usuario: {
+                id: 1
+            }
+        }
+        restClient.handleRegisterCoupons(payloadToSend)
             .then(() => {
                 setRegisterStatus(EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL)
             })

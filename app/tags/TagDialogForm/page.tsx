@@ -33,12 +33,12 @@ export default function TagDialogForm({ handlePayload, registerTag, loading }: T
             <DialogTrigger asChild className="fixed right-8 bottom-8">
                 <Button>
                     <Plus />
-                    Novo cupom
+                    Nova tag
                 </Button>
             </DialogTrigger>
             <DialogContent className="w-full">
                 <DialogHeader>
-                    <DialogTitle>Cadastrar novo cupom</DialogTitle>
+                    <DialogTitle>Cadastrar nova tag</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -89,7 +89,7 @@ export default function TagDialogForm({ handlePayload, registerTag, loading }: T
                         </Button>
                     </DialogClose>
                     <Button onClick={registerTag}>
-                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar cupom"}
+                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar tag"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

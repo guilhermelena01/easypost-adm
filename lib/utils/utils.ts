@@ -204,3 +204,10 @@ export function formatCurrency(value: string | number) {
 
   return formattedValue;
 };
+
+export function unformatCurrency(value: string) {
+  // Remove todos os caracteres que não são dígitos ou ponto
+  const numericValue = value.replace(/[^\d.-]/g, "");
+  // Converte para número e divide por 100 para obter o valor correto
+  return parseFloat(numericValue) / 100;
+}

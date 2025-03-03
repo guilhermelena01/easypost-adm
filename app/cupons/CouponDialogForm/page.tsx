@@ -6,6 +6,7 @@ import { DatePickerDemo } from "@/components/ui/date-picker";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { formatCurrency } from "@/lib/utils/utils";
 import { LoaderCircle, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -49,7 +50,7 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
                             className="col-span-3"
                             value={couponPayload.codigo}
                             onChange={(e) => setCouponPayload({ ...couponPayload, codigo: e.target.value })}
-                            placeholder="Insira o nome do produto" />
+                            placeholder="Insira o nome do cupom" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
@@ -57,9 +58,9 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={couponPayload.valor}
-                            onChange={(e) => setCouponPayload({ ...couponPayload, valor: e.target.value })}
-                            placeholder="Insira o valor do produto" />
+                            value={couponPayload.quantidade}
+                            onChange={(e) => setCouponPayload({ ...couponPayload, quantidade: e.target.value })}
+                            placeholder="Insira a quantidade do cupom" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name">
@@ -67,9 +68,9 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={couponPayload.quantidade}
-                            onChange={(e) => setCouponPayload({ ...couponPayload, quantidade: e.target.value })}
-                            placeholder="Insira prazo estimado para a entrega do produto" />
+                            value={couponPayload.valor}
+                            onChange={(e) => setCouponPayload({ ...couponPayload, valor: formatCurrency(e.target.value) })}
+                            placeholder="Insira o valor do cupom" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">

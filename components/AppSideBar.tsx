@@ -38,7 +38,7 @@ const items = [
     icon: Ticket,
   },
   {
-    title: "Atendimento helpdesk",
+    title: "Atendimento/Helpdesk",
     url: "/atendimento-helpdesk",
     icon: MessageCircleQuestion,
   },
@@ -85,7 +85,7 @@ export function AppSidebar() {
         <SidebarFooter className="w-full flex items-start">
           <Button onClick={handleLoggout} variant={"ghost"}>
             <LogOut />
-            Loggout
+            Logout
           </Button>
         </SidebarFooter>
       </SidebarContent>
