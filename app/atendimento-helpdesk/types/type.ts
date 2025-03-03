@@ -74,4 +74,14 @@ export type TicketMessagesResponse = {
     _embedded: Embedded;
     _links: Links;
     page: PageInfo;
-};      
+};
+
+export enum EnumRegisterTicketMessageStatus {
+    REGISTERSUCCESSFULL = "REGISTER_SUCCESSFULL",
+    UNSUCCESSFULL_REGISTER = "UNSUCCESSFULL_REGISTER"
+}
+
+export enum EnumCloseTicketMessageStatus {
+    CLOSE_SUCCESSFULL = "CLOSE_SUCCESSFULL",
+    UNSUCCESSFULL_CLOSE = "UNSUCCESSFULL_CLOSE"
+}

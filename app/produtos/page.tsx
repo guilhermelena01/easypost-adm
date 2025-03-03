@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import LoaderComponent from "@/components/Loader";
+import ProductIconPicker from "./components/ProductIconPicker/page";
 
 export default function Produtos() {
     const { products, loading, registerProducts, registerStatus, deleteProducts, loadingProducts } = UseProduct()
@@ -27,12 +28,14 @@ export default function Produtos() {
         }
     }
 
+    const productToShow = products && products.length > 0 ? products.filter(product => product.status === "CONCLUIDO") : []
+
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
             <h1 className={`text-2xl font-bold ${montserrat.className}`}>Produtos</h1>
             {loadingProducts ? <LoaderComponent /> :
                 <ProductTable
-                    data={products}
+                    data={productToShow}
                     showConfirmationModal={setShowConfirmationModal}
                     setProductId={setProductId}
                 />

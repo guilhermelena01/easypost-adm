@@ -38,10 +38,10 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
                         <TableHead>Id</TableHead>
                         <TableHead>Descrição</TableHead>
                         <TableHead>Resolução</TableHead>
-                        <TableHead>Cor</TableHead>
+                        <TableHead>Ícone</TableHead>
                         <TableHead>Tempo limite</TableHead>
                         <TableHead>Valor</TableHead>
-                        <TableHead>Ações</TableHead> {/* Nova coluna */}
+                        <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -51,7 +51,7 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
                             <TableCell>{item.descricao}</TableCell>
                             <TableCell>{item.resolucao ?? "Não definida"}</TableCell>
                             <TableCell>
-                                <div className={`h-3 w-3 rounded-full ${!item.cor && "hidden"}`} style={{ background: `${item.cor}` }}></div>
+                                {/* <div className={`h-3 w-3 rounded-full ${!item.cor && "hidden"}`} style={{ background: `${item.cor}` }}></div> */}
                                 {!item.cor && "Cor não definida"}
                             </TableCell>
                             <TableCell>{item.tempoLimite}</TableCell>

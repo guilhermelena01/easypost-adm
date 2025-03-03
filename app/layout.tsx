@@ -43,7 +43,7 @@ export default function RootLayout({
             }
             <main className={`flex w-full overflow-hidden ${isAuthPage ? "" : "justify-center items-center"}`}>
               {children}
-              <ToastContainer/>
+              <ToastContainer />
             </main>
           </SidebarProvider>
         </AppProvider>

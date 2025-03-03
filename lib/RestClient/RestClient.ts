@@ -53,6 +53,13 @@ export class RestClient extends AbstractRestClient {
         return this.fetchData(url, requestInit, true);
     }
 
+    handleDeleteCoupons(id: string | number) {
+        const url = this.getRequestPath(this.COUPON_PATH).concat(`/${id.toString()}`)
+        const requestInit = this.getRequestInitMethodDelete();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
     handleChangeStatusPayment(id: string | number, payload: {}) {
         const url = this.getRequestPath(this.ORDER_PATH).concat(`/${id.toString()}`).concat("/alterarPagamento")
         const requestInit = this.getRequestInitMethodPostWithForm(payload);
@@ -76,6 +83,20 @@ export class RestClient extends AbstractRestClient {
 
     handleFetchTickets() {
         const url = this.getRequestPath(this.TICKETS_PATH).concat("?page=0");
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleFetchTicketsAtivos() {
+        const url = this.getRequestPath(this.TICKETS_PATH).concat("/ativos").concat("?page=0");
+        const requestInit = this.getDefaultRequestInitMethodGet();
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleFetchTicketsConcluidos() {
+        const url = this.getRequestPath(this.TICKETS_PATH).concat("/concluidos").concat("?page=0");
         const requestInit = this.getDefaultRequestInitMethodGet();
 
         return this.fetchData(url, requestInit, true);
@@ -111,6 +132,20 @@ export class RestClient extends AbstractRestClient {
 
     handleRegisterTags(payload: object) {
         const url = this.getRequestPath(this.COUPON_PATH);
+        const requestInit = this.getRequestInitMethodPost(payload);
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleRegisterTicketMessages(payload: object) {
+        const url = this.getRequestPath(this.TICKET_CHAT_MSG);
+        const requestInit = this.getRequestInitMethodPost(payload);
+
+        return this.fetchData(url, requestInit, true);
+    }
+
+    handleCloseTicketMessages(id: number, payload) {
+        const url = this.getRequestPath(this.TICKETS_PATH).concat("/").concat(id.toString()).concat("/concluir");
         const requestInit = this.getRequestInitMethodPost(payload);
 
         return this.fetchData(url, requestInit, true);

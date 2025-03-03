@@ -13,6 +13,8 @@ export type Coupon = {
 export interface CouponsTableProps {
     data: Array<Coupon>;
     loading: boolean;
+    setCoupomId: (id: string | number) => void;
+    showConfirmationModal: (show: boolean) => void;
 }
 
 //ENUM
@@ -23,5 +25,7 @@ export enum EnumCouponStatus {
 
 export enum EnumRegisterCouponsStatus {
     REGISTER_SUCCESSFULL = "REGISTER_SUCCESSFULL",
-    REGISTER_UNSUCCESSFULL = "REGISTER_UNSUCCESSFULL"
+    REGISTER_UNSUCCESSFULL = "REGISTER_UNSUCCESSFULL",
+    DELETED_SUCCESSFULL = "DELETED_SUCCESSFULL",
+    DELETED_UNSUCCESSFULL = "DELETED_UNSUCCESSFULL"
 }

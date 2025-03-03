@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+"use client"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Montserrat, Poppins, Roboto } from "next/font/google";
@@ -167,3 +168,39 @@ export function getImageUrl(imgPath: string) {
 
   return "https://www.easypostsys.com.br".concat(formatUrl);
 }
+
+export function onlyNumbers(val: string): string {
+  return val.replace(/\D/g, "");
+}
+
+export function maskDocument(document: string) {
+  if (onlyNumbers(document).length > 11) {
+    document = document.replace(/\D/g, "");
+    document = document.replace(/(\d{2})(\d)/, "$1.$2");
+    document = document.replace(/(\d{3})(\d)/, "$1.$2");
+    document = document.replace(/(\d{3})(\d)/, "$1/$2");
+    document = document.replace(/(\d{4})(\d)/, "$1-$2");
+
+    return document;
+  }
+
+  document = document.replace(/\D/g, "");
+  document = document.replace(/(\d{3})(\d)/, "$1.$2");
+  document = document.replace(/(\d{3})(\d)/, "$1.$2");
+  document = document.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+  return document;
+}
+
+export function formatCurrency(value: string | number) {
+  if (!value) return "R$ 0,00";
+
+  let numericValue = String(value).replace(/\D/g, "");
+
+  let formattedValue = (Number(numericValue) / 100).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  return formattedValue;
+};

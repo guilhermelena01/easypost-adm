@@ -1,15 +1,20 @@
 import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
-import { TicketMensagemType, TicketMessagesResponse, TicketsType } from "../types/type"
+import { EnumCloseTicketMessageStatus, EnumRegisterTicketMessageStatus, TicketMensagemType, TicketMessagesResponse, TicketsType } from "../types/type"
 import { ChatMessageType } from "@/lib/utils/types"
 
 export default function useChat() {
     const restClient = new RestClient()
     const [tickets, setTickets] = useState<TicketsType>()
+    const [ticketsAbertos, setTicketsAbertos] = useState()
+    const [ticketsConcluidos, setTicketsConcluidos] = useState()
     const [ticketMensagens, setTicketMensagens] = useState<Array<TicketMensagemType>>()
     const [ticketMensagensById, setTicketMensagensById] = useState<TicketMessagesResponse>()
     const [loading, setLoading] = useState(false)
+    const [closingTicket, setClosingTicket] = useState(false);
     const [messages, setMessages] = useState<Array<ChatMessageType>>();
+    const [registerTicketMessagesStatus, setRegisterTicketMessagesStatus] = useState<EnumRegisterTicketMessageStatus>()
+    const [closeTicketMessagesStatus, setCloseTicketMessagesStatus] = useState<EnumCloseTicketMessageStatus>()
 
     function getTickets() {
         setLoading(true)
@@ -20,6 +25,19 @@ export default function useChat() {
             .finally(() => setLoading(false))
     }
 
+    function getTicketsAtivos() {
+        restClient.handleFetchTicketsAtivos()
+            .then(res => setTicketsAbertos(res))
+            .catch(err => console.error(err))
+    }
+
+
+    function getTicketsConcluidos() {
+        restClient.handleFetchTicketsConcluidos()
+            .then(res => setTicketsConcluidos(res))
+            .catch(err => console.error(err))
+    }
+
     function getTicketMensagensById(ticketId: number) {
         setLoading(true)
 
@@ -27,6 +45,12 @@ export default function useChat() {
             .then(res => setTicketMensagensById(res))
             .catch(err => console.error(err))
             .finally(() => setLoading(false))
+    }
+
+    function handleRegisterMessageTicketId(message: any) {
+        restClient.handleRegisterTicketMessages(message)
+            .then(() => setRegisterTicketMessagesStatus(EnumRegisterTicketMessageStatus.REGISTERSUCCESSFULL))
+            .catch(() => setRegisterTicketMessagesStatus(EnumRegisterTicketMessageStatus.UNSUCCESSFULL_REGISTER))
     }
 
     function getTicketMensagens() {
@@ -58,18 +82,52 @@ export default function useChat() {
 
     }
 
+    function handleCloseTickets(ticketId: number) {
+        setClosingTicket(true)
+        const payloadToExclude =
+        {
+            "razaoFechamento": ticketId,
+            "detalhesFechamento": "Tinha de finalizar",
+            "notaFechamento": 5
+        }
+
+
+        restClient.handleCloseTicketMessages(ticketId, payloadToExclude)
+            .then(res => {
+                setCloseTicketMessagesStatus(EnumCloseTicketMessageStatus.CLOSE_SUCCESSFULL)
+            })
+            .catch(err => console.error(err))
+            .finally(() => setClosingTicket(false))
+    }
+
     useEffect(() => {
-        getTickets()
+        getTicketsAtivos()
+        getTicketsConcluidos()
         getTicketMensagens()
-    },[])
+    }, [])
+
+    useEffect(() => {
+        if (closeTicketMessagesStatus == EnumCloseTicketMessageStatus.CLOSE_SUCCESSFULL) {
+            getTicketsConcluidos()
+            getTicketsAtivos()
+        }
+    }, [closeTicketMessagesStatus])
 
     return {
         messages,
+        closingTicket,
+        closeTicketMessagesStatus,
         tickets,
+        ticketsAbertos,
+        ticketsConcluidos,
         ticketMensagens,
         ticketMensagensById,
         loading,
+        registerTicketMessagesStatus,
+        setTicketMensagensById,
         getChatData,
-        getTicketMensagensById
+        getTicketMensagensById,
+        handleRegisterMessageTicketId,
+        handleCloseTickets
     }
 }

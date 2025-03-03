@@ -225,7 +225,7 @@ export abstract class AbstractRestClient {
                     return res.json();
                 }
 
-                return handleResponseError(res, toastify, throws);
+                return;
             })
             .catch(err => resolveRequestError(err, toastify));
     }

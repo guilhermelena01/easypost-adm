@@ -5,8 +5,10 @@ import { formatDate } from "@/lib/utils/utils";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import TableSkeleton from "@/components/TableSkeleton";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
-export default function CouponTable({ data, loading }: CouponsTableProps) {
+export default function CouponTable({ data, loading, setCoupomId, showConfirmationModal }: CouponsTableProps) {
     const [searchTerm, setSearchTerm] = useState("");
 
     const dadosFiltrados = data && data.length > 0 ? data
@@ -16,6 +18,11 @@ export default function CouponTable({ data, loading }: CouponsTableProps) {
             item.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.quantidade.toString().toLowerCase().includes(searchTerm.toLowerCase())
         ) : []
+
+    function handleConfirmatioModal(id: string | number) {
+        setCoupomId(id)
+        showConfirmationModal(true)
+    }
 
     return (
         <>
@@ -38,6 +45,7 @@ export default function CouponTable({ data, loading }: CouponsTableProps) {
                         <TableHead>Data de criação</TableHead>
                         <TableHead>Data de validade</TableHead>
                         <TableHead>Status</TableHead>
+                        <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -50,6 +58,13 @@ export default function CouponTable({ data, loading }: CouponsTableProps) {
                             <TableCell>{formatDate(item.dataCriacao)}</TableCell>
                             <TableCell>{formatDate(item.dataValidade)}</TableCell>
                             <TableCell>{item.status}</TableCell>
+                            <TableCell>
+                                <div className="flex gap-2">
+                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmatioModal(item.id)}>
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            </TableCell>
                         </TableRow>
                     )) : []}
                 </TableBody>

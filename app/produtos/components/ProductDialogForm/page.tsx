@@ -7,6 +7,9 @@ import { Label } from "@/components/ui/label";
 import { LoaderCircle, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Product } from "../../types/types";
+import { formatCurrency } from "@/lib/utils/utils";
+import { DatePickerDemo } from "@/components/ui/date-picker";
+import ProductIconPicker from "../ProductIconPicker/page";
 
 interface ProductDialogFormProps {
     registerProduct: () => void;
@@ -27,6 +30,10 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
     useEffect(() => {
         handlePayload(productPayload)
     }, [productPayload])
+
+    function getProductIcon(icon: string) {
+        setProductPayload({ ...productPayload, cor: icon })
+    }
 
     return (
         <Dialog>
@@ -57,29 +64,10 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={productPayload.valor}
+                            maxLength={18}
+                            value={formatCurrency(productPayload.valor)}
                             onChange={(e) => setProductPayload({ ...productPayload, valor: e.target.value })}
                             placeholder="Insira o valor do produto" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name">
-                            Prazo limite para entrega
-                        </Label>
-                        <Input
-                            className="col-span-3"
-                            value={productPayload.tempoLimite}
-                            onChange={(e) => setProductPayload({ ...productPayload, tempoLimite: e.target.value })}
-                            placeholder="Insira o prazo limite para a entrega do produto" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username">
-                            Cor
-                        </Label>
-                        <Input
-                            className="col-span-3"
-                            value={productPayload.cor}
-                            onChange={(e) => setProductPayload({ ...productPayload, cor: e.target.value })}
-                            placeholder="Preencha com a cor para o produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
@@ -91,6 +79,17 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
                             placeholder="Insira uma resolução para o produto"
                             className="col-span-3" />
                     </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name">
+                            Prazo limite para entrega
+                        </Label>
+                        <DatePickerDemo
+                            className="col-span-3"
+                            value={productPayload.tempoLimite}
+                            onChange={(e) => setProductPayload({ ...productPayload, tempoLimite: e.target.value })}
+                            placeholder="Insira o prazo limite para a entrega do produto" />
+                    </div>
+                    <ProductIconPicker handlePayload={getProductIcon} />
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>

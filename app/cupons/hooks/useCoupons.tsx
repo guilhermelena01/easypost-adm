@@ -32,8 +32,20 @@ export default function useCoupons() {
             })
     }
 
+    function deleteCoupons(coupomId: string | number) {
+        setLoading(true)
+        restClient.handleDeleteCoupons(coupomId)
+            .then(() => {
+                setRegisterStatus(EnumRegisterCouponsStatus.DELETED_SUCCESSFULL)
+            })
+            .catch(() => setRegisterStatus(EnumRegisterCouponsStatus.DELETED_UNSUCCESSFULL))
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
     useEffect(() => {
-        if (registerStatus == EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL) {
+        if (registerStatus == EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL || registerStatus == EnumRegisterCouponsStatus.DELETED_SUCCESSFULL) {
             getCoupons()
             setRegisterStatus("")
         }
@@ -44,6 +56,7 @@ export default function useCoupons() {
     }, [])
 
     return {
+        deleteCoupons,
         loading,
         loadingCoupons,
         coupons,

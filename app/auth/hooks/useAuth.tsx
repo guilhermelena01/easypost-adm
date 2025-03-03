@@ -34,12 +34,10 @@ export default function useAuth() {
 
         restClient.handleLogin(loginPayload.username, loginPayload.password)
             .then(res => {
-                console.log("aqui", res)
                 saveTokenAndExpiration(res.token)
                 router.push("/dashboard")
             })
             .catch((error) => {
-                console.log("aqui embaixo", error)
                 setLoading(false);
                 cleanAllFields();
             })
@@ -48,7 +46,7 @@ export default function useAuth() {
 
     function saveTokenAndExpiration(token: string) {
         const expiration = new Date()
-        expiration.setMinutes(expiration.getMinutes() + 15)
+        expiration.setMinutes(expiration.getMinutes() + 60)
 
         localStorage.setItem("token", token)
         localStorage.setItem("expiration", expiration.toISOString())
