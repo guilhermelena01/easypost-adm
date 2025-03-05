@@ -8,15 +8,19 @@ import useCoupons from "./hooks/useCoupons";
 import LoaderComponent from "@/components/Loader";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import useAppData from "@/hooks/useAppData";
 
 export default function Cupons() {
+    // const {user} = useAppData()
+    const user = localStorage.getItem("user")
     const { coupons, loading, loadingCoupons, registerCoupons, deleteCoupons } = useCoupons()
     const [couponPayload, setCouponPayload] = useState()
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
     const [coupomId, setCoupomId] = useState("")
 
     function handleRegisterCoupons() {
-        registerCoupons(couponPayload)
+        const recoveryUSer = JSON.parse(user)
+        registerCoupons(couponPayload, recoveryUSer.id)
     }
 
     function handleDeleteProducts() {

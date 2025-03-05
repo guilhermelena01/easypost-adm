@@ -59,7 +59,7 @@ export default function Helpdesk() {
                         </TabsList>
                         <TabsContent value="ativos">
                             {ticketsAbertos && ticketsAbertos._embedded ? ticketsAbertos._embedded.ticketModelList.map((tickets) => (
-                                <span key={tickets.id} className="w-full border flex justify-between p-8 rounded-xl">
+                                <span key={tickets.id} className="w-full border flex justify-between p-8 rounded-xl mb-4">
                                     <span className="flex flex-col justify-between gap-4">
                                         <p className="text text-lg">{tickets.titulo}</p>
                                         <p className="flex items-center gap-2 text-muted-foreground font-extralight">
@@ -88,7 +88,7 @@ export default function Helpdesk() {
                         </TabsContent>
                         <TabsContent value="concluidos">
                             {ticketsConcluidos && ticketsConcluidos._embedded ? ticketsConcluidos._embedded.ticketModelList.map((tickets) => (
-                                <span key={tickets.id} className="w-full border flex justify-between p-8 rounded-xl">
+                                <span key={tickets.id} className="w-full border flex justify-between p-8 rounded-xl mb-4">
                                     <span className="flex flex-col justify-between gap-4">
                                         <p className="text text-lg">{tickets.titulo}</p>
                                         <p className="flex items-center gap-2 text-muted-foreground font-extralight">

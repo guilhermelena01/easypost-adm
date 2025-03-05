@@ -4,7 +4,7 @@
 import useAppData from "@/hooks/useAppData"
 
 export default function Dashboard() {
-    const { isAuth, verifyUserAuth } = useAppData()
+    const { user } = useAppData()
 
     return (
         <>

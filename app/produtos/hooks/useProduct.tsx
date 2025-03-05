@@ -1,6 +1,7 @@
 import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { EnumRegisterProductStatus, Product } from "../types/types"
+import { unformatCurrency } from "@/lib/utils/utils"
 
 export default function UseProduct() {
     const restClient = new RestClient()
@@ -21,7 +22,11 @@ export default function UseProduct() {
 
     function registerProducts(productPayload: Product) {
         setLoading(true)
-        restClient.handleRegisterProducts(productPayload)
+        const payloadToSend = {
+            ...productPayload,
+            valor: unformatCurrency(productPayload.valor.toString()),
+        }
+        restClient.handleRegisterProducts(payloadToSend)
             .then(() => {
                 setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL)
             })

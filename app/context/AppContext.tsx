@@ -3,37 +3,45 @@ import { useHandleLogout } from "@/hooks/useHandleLoggout";
 import { verifyAuth } from "@/lib/utils/utils";
 import { createContext, useEffect, useState } from "react";
 
+enum EnumContaTipo {
+    FORNECEDOR = "FORNECEDOR",
+    CLIENTE = "CLIENTE"
+}
+
+type UserType = {
+    "id": number,
+    "nome": string,
+    "urlFoto": string,
+    "contaTipo": EnumContaTipo,
+}
+
 interface AppContextProps {
-    isAuth: boolean;
-    verifyUserAuth: () => void
+    user: UserType;
+    setUser: (user: UserType) => void;
 }
 
 const AppContext = createContext<AppContextProps>({
-    isAuth: false,
-    verifyUserAuth: null
+    user: {
+        contaTipo: EnumContaTipo.FORNECEDOR,
+        id: 0,
+        nome: "",
+        urlFoto: ""
+    },
+    setUser: null
 })
 
 export function AppProvider(props: any) {
-    const [isAuth, setIsAuth] = useState(false)
-    const loggout = useHandleLogout()
-
-    async function verifyUserAuth() {
-        const isAuth = await verifyAuth()
-
-        if (!isAuth) {
-            await loggout()
-        }
-        setIsAuth(isAuth)
-    }
-
-    useEffect(() => {
-        (async () => verifyUserAuth())()
-    },[verifyUserAuth])
+    const [user, setUser] = useState<UserType>({
+        contaTipo: EnumContaTipo.FORNECEDOR,
+        id: 0,
+        nome: "",
+        urlFoto: ""
+    })
 
     return (
         <AppContext.Provider value={{
-            isAuth,
-            verifyUserAuth
+            user,
+            setUser
         }}>
             {props.children}
         </AppContext.Provider>

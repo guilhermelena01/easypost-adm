@@ -21,13 +21,13 @@ export default function useCoupons() {
             .finally(() => setLoadingCoupons(false))
     }
 
-    function registerCoupons(productPayload: Coupon) {
+    function registerCoupons(productPayload: Coupon, userId: number) {
         setLoading(true)
         const payloadToSend = {
             ...productPayload,
             valor: unformatCurrency(productPayload.valor),
             usuario: {
-                id: 1
+                id: userId
             }
         }
         restClient.handleRegisterCoupons(payloadToSend)

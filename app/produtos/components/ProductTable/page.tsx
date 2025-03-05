@@ -5,25 +5,70 @@ import { Trash2 } from "lucide-react";
 import { ProductTableProps } from "../../types/types";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function ProductTable({ data, showConfirmationModal, setProductId }: ProductTableProps) {
     const [searchTerm, setSearchTerm] = useState("");
+    const [statusFiltro, setStatusFiltro] = useState("todos");
+    const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
 
-    function handleConfirmatioModal(id: string | number) {
-        setProductId(id)
-        showConfirmationModal(true)
+    function handleConfirmationModal(id: string | number) {
+        setProductId(id);
+        showConfirmationModal(true);
     }
 
-    const dadosFiltrados = data && data.length > 0 ? data
+    function renderIcon(icon: string) {
+        const IconComponent = require("lucide-react")[icon];
+        if (!IconComponent) {
+            return "Sem ícone definido";
+        }
+        return <IconComponent size={20} color="#3b3a3d" />;
+    }
+
+    function handleSort(key: string) {
+        let direction = "ascending";
+        if (sortConfig && sortConfig.key === key && sortConfig.direction === "ascending") {
+            direction = "descending";
+        }
+        setSortConfig({ key, direction });
+    }
+
+    const sortedData = [...(data || [])].sort((a, b) => {
+        if (!sortConfig) return 0;
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+
+        if (aValue < bValue) return sortConfig.direction === "ascending" ? -1 : 1;
+        if (aValue > bValue) return sortConfig.direction === "ascending" ? 1 : -1;
+        return 0;
+    });
+
+    const filteredData = sortedData
+        .filter(item => statusFiltro === "todos" || item.status === statusFiltro)
         .filter(item =>
             item.cor.toString().includes(searchTerm) ||
             item.descricao.toLowerCase().includes(searchTerm.toLowerCase()) ||
             item.tempoLimite.toString().toLowerCase().includes(searchTerm.toLowerCase())
-        ) : []
+        );
+
+    const options = ["ATIVO", "INATIVO", "EXCLUIDO"];
 
     return (
         <>
             <div className="w-full flex justify-end gap-4">
+                <Select value={statusFiltro} onValueChange={setStatusFiltro}>
+                    <SelectTrigger className="w-[120px]">
+                        <SelectValue placeholder="Filtrar por status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectItem value="todos">Todos</SelectItem>
+                            {options.map((option, idx) => (
+                                <SelectItem key={idx} value={option}>{option}</SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
                 <Input
                     type="text"
                     placeholder="Pesquisar..."
@@ -35,30 +80,35 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Id</TableHead>
-                        <TableHead>Descrição</TableHead>
-                        <TableHead>Resolução</TableHead>
-                        <TableHead>Ícone</TableHead>
-                        <TableHead>Tempo limite</TableHead>
-                        <TableHead>Valor</TableHead>
+                        {[
+                            { key: "id", label: "Id" },
+                            { key: "descricao", label: "Descrição" },
+                            { key: "resolucao", label: "Resolução" },
+                            { key: "cor", label: "Ícone" },
+                            { key: "tempoLimite", label: "Tempo limite" },
+                            { key: "valor", label: "Valor" },
+                            { key: "status", label: "Status" }
+                        ].map(({ key, label }) => (
+                            <TableHead key={key} onClick={() => handleSort(key)} className="cursor-pointer">
+                                {label} {sortConfig?.key === key ? (sortConfig.direction === "ascending" ? "▲" : "▼") : ""}
+                            </TableHead>
+                        ))}
                         <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {dadosFiltrados.map((item, idx) => (
+                    {filteredData.map((item, idx) => (
                         <TableRow key={idx}>
                             <TableCell>{item.id}</TableCell>
                             <TableCell>{item.descricao}</TableCell>
                             <TableCell>{item.resolucao ?? "Não definida"}</TableCell>
-                            <TableCell>
-                                {/* <div className={`h-3 w-3 rounded-full ${!item.cor && "hidden"}`} style={{ background: `${item.cor}` }}></div> */}
-                                {!item.cor && "Cor não definida"}
-                            </TableCell>
+                            <TableCell>{renderIcon(item.cor)}</TableCell>
                             <TableCell>{item.tempoLimite}</TableCell>
                             <TableCell>{item.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</TableCell>
+                            <TableCell>{item.status ?? "Sem status definido"}</TableCell>
                             <TableCell>
                                 <div className="flex gap-2">
-                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmatioModal(item.id)}>
+                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmationModal(item.id)}>
                                         <Trash2 className="h-4 w-4" />
                                     </Button>
                                 </div>

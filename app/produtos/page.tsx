@@ -5,11 +5,12 @@ import { montserrat } from "@/lib/utils/utils";
 import ProductTable from "./components/ProductTable/page";
 import ProductDialogForm from "./components/ProductDialogForm/page";
 import UseProduct from "./hooks/useProduct";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import LoaderComponent from "@/components/Loader";
 import ProductIconPicker from "./components/ProductIconPicker/page";
+import useAppData from "@/hooks/useAppData";
 
 export default function Produtos() {
     const { products, loading, registerProducts, registerStatus, deleteProducts, loadingProducts } = UseProduct()
@@ -28,14 +29,12 @@ export default function Produtos() {
         }
     }
 
-    const productToShow = products && products.length > 0 ? products.filter(product => product.status === "CONCLUIDO") : []
-
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
             <h1 className={`text-2xl font-bold ${montserrat.className}`}>Produtos</h1>
             {loadingProducts ? <LoaderComponent /> :
                 <ProductTable
-                    data={productToShow}
+                    data={products}
                     showConfirmationModal={setShowConfirmationModal}
                     setProductId={setProductId}
                 />

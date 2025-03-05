@@ -5,6 +5,7 @@ export type Product = {
     cor: string;
     tempoLimite: number;
     descricao: string;
+    status: string;
 }
 
 export interface ProductTableProps {
