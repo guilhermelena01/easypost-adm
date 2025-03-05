@@ -3,16 +3,15 @@
 import { montserrat } from "@/lib/utils/utils";
 import CouponTable from "./CouponsTable/page";
 import CouponDialogForm from "./CouponDialogForm/page";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCoupons from "./hooks/useCoupons";
 import LoaderComponent from "@/components/Loader";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import useAppData from "@/hooks/useAppData";
 
 export default function Cupons() {
     // const {user} = useAppData()
-    const user = localStorage.getItem("user")
+    const [user, setUser] = useState()
     const { coupons, loading, loadingCoupons, registerCoupons, deleteCoupons } = useCoupons()
     const [couponPayload, setCouponPayload] = useState()
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
@@ -29,6 +28,11 @@ export default function Cupons() {
             setShowConfirmationModal(false)
         }
     }
+
+    useEffect(() => {
+        const recoveryUSer = localStorage.getItem("user")
+        setUser(recoveryUSer)
+    }, [])
 
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
