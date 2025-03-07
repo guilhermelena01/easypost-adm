@@ -28,7 +28,7 @@ export default function RootLayout({
   const isAuthPage = path.includes("auth")
 
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

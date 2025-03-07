@@ -4,7 +4,6 @@ import { OrderTableProps } from "../../types/types";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { ChevronUp, ChevronDown } from "lucide-react";
 
 export default function OrdersTable({ data, showConfirmationModal, setOrderId, setSelectedStatusPayment }: OrderTableProps) {
     const [statusFiltro, setStatusFiltro] = useState("todos");

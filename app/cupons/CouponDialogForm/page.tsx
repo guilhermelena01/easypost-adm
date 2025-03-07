@@ -14,9 +14,11 @@ interface CouponDialogFormProps {
     registerCoupon: () => void;
     handlePayload: (payload: any) => void;
     loading: boolean;
+    open: boolean;
+    setOpen: (open: boolean) => void;
 }
 
-export default function CouponDialogForm({ handlePayload, registerCoupon, loading }: CouponDialogFormProps) {
+export default function CouponDialogForm({ handlePayload, registerCoupon, loading, open, setOpen }: CouponDialogFormProps) {
 
     const [couponPayload, setCouponPayload] = useState({
         codigo: "",
@@ -30,9 +32,9 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
     }, [couponPayload])
 
     return (
-        <Dialog>
-            <DialogTrigger asChild className="fixed right-8 bottom-8">
-                <Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger className="fixed right-8 bottom-8">
+                <Button onClick={() => setOpen(true)}>
                     <Plus />
                     Novo cupom
                 </Button>

@@ -10,10 +10,9 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 export default function CouponTable({ data, loading, setCoupomId, showConfirmationModal }: CouponsTableProps) {
     const [searchTerm, setSearchTerm] = useState("");
-    const [statusFiltro, setStatusFiltro] = useState("todos");
+    const [statusFiltro, setStatusFiltro] = useState("ATIVO");
     const [sortConfig, setSortConfig] = useState<{ key: string | null, direction: "asc" | "desc" }>({ key: null, direction: "asc" });
 
-    // Função para ordenar os dados
     const handleSort = (key: string) => {
         let direction: "asc" | "desc" = "asc";
         if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -22,7 +21,6 @@ export default function CouponTable({ data, loading, setCoupomId, showConfirmati
         setSortConfig({ key, direction });
     };
 
-    // Filtragem e ordenação
     const dadosFiltrados = data && data.length > 0 ? data
         .filter(item => statusFiltro === "todos" || item.status === statusFiltro)
         .filter(item =>
@@ -32,7 +30,6 @@ export default function CouponTable({ data, loading, setCoupomId, showConfirmati
             item.quantidade.toString().toLowerCase().includes(searchTerm.toLowerCase())
         ) : [];
 
-    // Aplicar ordenação
     const dadosOrdenados = [...dadosFiltrados].sort((a, b) => {
         if (!sortConfig.key) return 0;
         const valueA = a[sortConfig.key];

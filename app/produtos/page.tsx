@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
@@ -9,14 +10,14 @@ import { useEffect, useState } from "react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import LoaderComponent from "@/components/Loader";
-import ProductIconPicker from "./components/ProductIconPicker/page";
-import useAppData from "@/hooks/useAppData";
+import { EnumRegisterProductStatus } from "./types/types";
 
 export default function Produtos() {
     const { products, loading, registerProducts, registerStatus, deleteProducts, loadingProducts } = UseProduct()
     const [payload, setPayload] = useState()
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
     const [productId, setProductId] = useState("")
+    const [showProductDialog, setShowProductDialog] = useState(false)
 
     function handleRegisterProducts() {
         registerProducts(payload)
@@ -28,6 +29,10 @@ export default function Produtos() {
             setShowConfirmationModal(false)
         }
     }
+
+    useEffect(() => {
+        registerStatus == EnumRegisterProductStatus.REGISTER_SUCCESSFULL && setShowProductDialog(false)
+    },[registerStatus])
 
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
@@ -43,6 +48,8 @@ export default function Produtos() {
                 handlePayload={setPayload}
                 registerProduct={handleRegisterProducts}
                 loading={loading}
+                open={showProductDialog}
+                setOpen={setShowProductDialog}
             />
             <Dialog open={showConfirmationModal}>
                 <DialogContent className="w-[420px]">

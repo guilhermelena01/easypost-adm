@@ -1,6 +1,7 @@
-import { Id, toast } from "react-toastify";
-import { getToastError, getToastSuccess, handleResponseError, resolveRequestError } from "../utils/utils";
+import { handleResponseError, resolveRequestError } from "../utils/utils";
 import { PayloadType } from "../RestClient/types";
+import handleError from "../handleResponse/handleError";
+import handleSuccess from "../handleResponse/handleSuccess";
 
 export abstract class AbstractRestClient {
     protected BASE_URL = "https://www.easypostsys.com.br";
@@ -215,7 +216,7 @@ export abstract class AbstractRestClient {
         return this.fetchData(url, requestInit);
     }
 
-    protected fetchData(url: RequestInfo | URL, reqInit?: RequestInit | undefined, throws?: boolean, toastify?: Id, toastSuccessMsg?: string) {
+    protected fetchData(url: RequestInfo | URL, reqInit?: RequestInit | undefined) {
         return fetch(url, reqInit)
             .then(res => {
                 if (res.ok) {
@@ -225,24 +226,25 @@ export abstract class AbstractRestClient {
                     return res.json();
                 }
 
-                return;
+                if (res.status == 401) {
+                    localStorage.removeItem("token");
+                    localStorage.removeItem("expiration");
+                    window.location.href = "/auth/login";
+                }
+
+                return handleResponseError(res, toastify, throws);
             })
-            .catch(err => resolveRequestError(err, toastify));
+            .catch(err => resolveRequestError(err));
     }
 
-    protected fetchDataWithResponse(url: RequestInfo | URL, reqInit?: RequestInit | undefined, toastify?: Id, toastSuccessMsg?: string): Promise<Response> {
+    protected fetchDataWithResponse(url: RequestInfo | URL, reqInit?: RequestInit | undefined, toastSuccessMsg: string): Promise<Response> {
         return fetch(url, reqInit)
             .then(res => {
                 if (res.ok) {
-                    if (toastify && toastSuccessMsg) {
-                        toast.update(toastify, getToastSuccess(toastSuccessMsg));
-                    }
-                } else if (toastify) {
-                    toast.update(toastify, getToastError("Erro ao se comunicar com sistema Easy!"));
+                    handleSuccess(toastSuccessMsg);
                 }
-
                 return res;
             })
-            .catch(err => err);
+            .catch(err => handleError(err));
     }
 }

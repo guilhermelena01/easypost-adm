@@ -13,9 +13,11 @@ interface TagDialogFormProps {
     registerTag: () => void;
     handlePayload: (payload: any) => void;
     loading: boolean;
+    open: boolean;
+    setOpen: (open: boolean) => void;
 }
 
-export default function TagDialogForm({ handlePayload, registerTag, loading }: TagDialogFormProps) {
+export default function TagDialogForm({ handlePayload, registerTag, loading, open, setOpen }: TagDialogFormProps) {
 
     const [tagPayload, setTagPayload] = useState({
         codigo: "",
@@ -29,9 +31,9 @@ export default function TagDialogForm({ handlePayload, registerTag, loading }: T
     }, [tagPayload])
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild className="fixed right-8 bottom-8">
-                <Button>
+                <Button onClick={() => setOpen(true)}>
                     <Plus />
                     Nova tag
                 </Button>

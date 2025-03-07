@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client"
 
 import { montserrat } from "@/lib/utils/utils";
@@ -8,14 +9,15 @@ import useCoupons from "./hooks/useCoupons";
 import LoaderComponent from "@/components/Loader";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { EnumRegisterCouponsStatus } from "./types/types";
 
 export default function Cupons() {
-    // const {user} = useAppData()
     const [user, setUser] = useState()
-    const { coupons, loading, loadingCoupons, registerCoupons, deleteCoupons } = useCoupons()
+    const { coupons, loading, loadingCoupons, registerCoupons, deleteCoupons, registerStatus } = useCoupons()
     const [couponPayload, setCouponPayload] = useState()
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
     const [coupomId, setCoupomId] = useState("")
+    const [showCoupomDialog, setShowCoupomDialog] = useState(false)
 
     function handleRegisterCoupons() {
         const recoveryUSer = JSON.parse(user)
@@ -34,6 +36,10 @@ export default function Cupons() {
         setUser(recoveryUSer)
     }, [])
 
+    useEffect(() => {
+        registerStatus == EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL && setShowCoupomDialog(false)
+    },[registerStatus])
+
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
             <h1 className={`text-2xl font-bold ${montserrat.className}`}>Cupons</h1>
@@ -48,6 +54,8 @@ export default function Cupons() {
                 handlePayload={setCouponPayload}
                 registerCoupon={handleRegisterCoupons}
                 loading={loading}
+                open={showCoupomDialog}
+                setOpen={setShowCoupomDialog}
             />
 
             <Dialog open={showConfirmationModal}>

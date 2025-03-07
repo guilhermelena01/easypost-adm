@@ -15,9 +15,11 @@ interface ProductDialogFormProps {
     registerProduct: () => void;
     handlePayload: (payload: any) => void;
     loading: boolean;
+    open: boolean;
+    setOpen: (open: boolean) => void;
 }
 
-export default function ProductDialogForm({ handlePayload, registerProduct, loading }: ProductDialogFormProps) {
+export default function ProductDialogForm({ handlePayload, registerProduct, loading, open, setOpen }: ProductDialogFormProps) {
 
     const [productPayload, setProductPayload] = useState<Product>({
         cor: "",
@@ -36,9 +38,9 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
     }
 
     return (
-        <Dialog>
-            <DialogTrigger asChild className="fixed right-8 bottom-8">
-                <Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger className="fixed right-8 bottom-8">
+                <Button onClick={() => setOpen(true)}>
                     <Plus />
                     Novo produto
                 </Button>

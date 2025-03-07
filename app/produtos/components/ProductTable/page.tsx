@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 export default function ProductTable({ data, showConfirmationModal, setProductId }: ProductTableProps) {
     const [searchTerm, setSearchTerm] = useState("");
-    const [statusFiltro, setStatusFiltro] = useState("todos");
+    const [statusFiltro, setStatusFiltro] = useState("ATIVO");
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
 
     function handleConfirmationModal(id: string | number) {

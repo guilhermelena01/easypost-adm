@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Montserrat, Poppins, Roboto } from "next/font/google";
-import { Id, toast, UpdateOptions } from "react-toastify";
-import { useHandleLogout } from "@/hooks/useHandleLoggout";
+import { Id, toast } from "react-toastify";
+import handleError from "../handleResponse/handleError";
+import getToastError from "../handleResponse/getToastError";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -49,33 +52,33 @@ export async function verifyAuth() {
 
 }
 
-export function getToastError(msg: string): UpdateOptions {
-  return {
-    render: msg,
-    type: "error",
-    isLoading: false,
-    autoClose: 5000,
-    closeButton: true,
-  };
-}
+// export function getToastError(msg: string): UpdateOptions {
+//   return {
+//     render: msg,
+//     type: "error",
+//     isLoading: false,
+//     autoClose: 5000,
+//     closeButton: true,
+//   };
+// }
 
-export function getToastSuccess(msg: string): UpdateOptions {
-  return {
-    render: msg.toString(),
-    type: "success",
-    isLoading: false,
-    autoClose: 5000,
-    closeButton: true,
-  };
-}
+// export function getToastSuccess(msg: string): UpdateOptions {
+//   return {
+//     render: msg.toString(),
+//     type: "success",
+//     isLoading: false,
+//     autoClose: 5000,
+//     closeButton: true,
+//   };
+// }
 
-export function handleError(error: string, throws?: boolean) {
-  toast.error(error);
+// export function handleError(error: string, throws?: boolean) {
+//   toast.error(error);
 
-  if (throws) {
-    throw new Error(error);
-  }
-}
+//   if (throws) {
+//     throw new Error(error);
+//   }
+// }
 
 function handleException(err?: string, toastify?: Id | null, throws?: boolean) {
   if (!err) {
@@ -97,27 +100,15 @@ function handleException(err?: string, toastify?: Id | null, throws?: boolean) {
   }
 }
 
-export function handleToastifyError(toastify: any, error: string, throws?: boolean) {
-  toast.update(toastify, getToastError(error));
+// export function handleToastifyError(toastify: any, error: string, throws?: boolean) {
+//   toast.update(toastify, getToastError(error));
 
-  if (throws) {
-    throw new Error(error);
-  }
-}
+//   if (throws) {
+//     throw new Error(error);
+//   }
+// }
 
 export async function handleResponseError(res: Response, toastify?: Id | null, throws?: boolean) {
-  const loggout = useHandleLogout()
-  if (res.status == 401) {
-    if (res.url.includes("login/auth")) {
-      const error = "Erro ao realizar login, verifique suas credenciais.";
-
-      if (throws) {
-        throw new Error(error);
-      }
-    }
-
-    return await loggout();
-  }
 
   if (res.status == 403) {
     const error = "Erro ao se comunicar com os serviços Easy.";
@@ -138,16 +129,10 @@ export async function handleResponseError(res: Response, toastify?: Id | null, t
 export function resolveRequestError(err: any, toastify?: any) {
   if (err instanceof TypeError && err.message == "Failed to fetch") {
     const error = "Serviços EasyPost indisponíveis!";
-
-    if (toastify) {
-      handleToastifyError(toastify, error, true);
-    } else {
-      handleError(error, true);
-    }
+    handleError(error);
   } else {
-    const error = err.message ? err.message : "Erro desconhecido ao realizar operação.";
-
-    toastify ? handleToastifyError(toastify, error, true) : handleError(error, true);
+    const error = err.message ?? "Erro desconhecido ao realizar operação.";
+    handleError(error);
   }
 }
 
@@ -195,9 +180,9 @@ export function maskDocument(document: string) {
 export function formatCurrency(value: string | number) {
   if (!value) return "R$ 0,00";
 
-  let numericValue = String(value).replace(/\D/g, "");
+  const numericValue = String(value).replace(/\D/g, "");
 
-  let formattedValue = (Number(numericValue) / 100).toLocaleString("pt-BR", {
+  const formattedValue = (Number(numericValue) / 100).toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
   });

@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useHandleLogout } from "@/hooks/useHandleLoggout";
-import { verifyAuth } from "@/lib/utils/utils";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 enum EnumContaTipo {
     FORNECEDOR = "FORNECEDOR",

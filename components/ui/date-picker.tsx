@@ -33,6 +33,7 @@ export function DatePickerDemo() {
           selected={date}
           onSelect={setDate}
           initialFocus
+          locale={ptBR}
         />
       </PopoverContent>
     </Popover>

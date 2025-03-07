@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
-import { Input } from "@/components/ui/input";
 import { getImageUrl, montserrat } from "@/lib/utils/utils";
 import useChat from "./hooks/useChat";
-import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { CircleCheckBig, Loader, MessageSquare, Send } from "lucide-react";
@@ -17,10 +16,7 @@ export default function Helpdesk() {
         ticketsAbertos,
         ticketsConcluidos,
         closingTicket,
-        ticketMensagens,
         ticketMensagensById,
-        getChatData,
-        closeTicketMessagesStatus,
         handleCloseTickets,
         handleRegisterMessageTicketId,
         registerTicketMessagesStatus,
@@ -30,6 +26,7 @@ export default function Helpdesk() {
 
     const [showMessagesDialog, setShowMessagesDialog] = useState(false)
     const [ticketId, setTicketId] = useState(0)
+    const [userId, setUserId] = useState(0)
 
     function handleSelectedChat(id: number) {
         getTicketMensagensById(id)
@@ -40,6 +37,11 @@ export default function Helpdesk() {
     function handleCloseTicket(id: number) {
         handleCloseTickets(id)
     }
+
+    useEffect(() => {
+        const recoveryUser = localStorage.getItem("user")
+        setUserId(JSON.parse(recoveryUser))
+    }, [])
 
     useEffect(() => {
         registerTicketMessagesStatus == EnumRegisterTicketMessageStatus.REGISTERSUCCESSFULL && getTicketMensagensById(ticketId)
@@ -121,6 +123,7 @@ export default function Helpdesk() {
                     setMensagens={setTicketMensagensById}
                     onOpenChange={setShowMessagesDialog}
                     handleNewMessageTicketId={handleRegisterMessageTicketId}
+                    loggedUserId={userId.id}
                 />
             </div>
         </section>
