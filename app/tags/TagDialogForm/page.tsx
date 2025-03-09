@@ -20,11 +20,10 @@ interface TagDialogFormProps {
 export default function TagDialogForm({ handlePayload, registerTag, loading, open, setOpen }: TagDialogFormProps) {
 
     const [tagPayload, setTagPayload] = useState({
-        codigo: "",
-        quantidade: 0,
-        valor: 0,
-        dataValidade: "2025-02-19T00:57:13.966Z",
-    })
+        "descricao": "",
+        "sigla": "",
+        "cor": ""
+      })
 
     useEffect(() => {
         handlePayload(tagPayload)
@@ -45,43 +44,33 @@ export default function TagDialogForm({ handlePayload, registerTag, loading, ope
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name">
-                            Código
+                            Descrição
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={tagPayload.codigo}
-                            onChange={(e) => setTagPayload({ ...tagPayload, codigo: e.target.value })}
-                            placeholder="Insira o nome do produto" />
+                            value={tagPayload.descricao}
+                            onChange={(e) => setTagPayload({ ...tagPayload, descricao: e.target.value })}
+                            placeholder="Insira a descrição da tag" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
-                            Quantidade
+                            Sigla
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={tagPayload.valor}
-                            onChange={(e) => setTagPayload({ ...tagPayload, valor: e.target.value })}
-                            placeholder="Insira o valor do produto" />
+                            value={tagPayload.sigla}
+                            onChange={(e) => setTagPayload({ ...tagPayload, sigla: e.target.value })}
+                            placeholder="Algo como TAG 123" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name">
-                            Valor
+                            Cor
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={tagPayload.quantidade}
-                            onChange={(e) => setTagPayload({ ...tagPayload, quantidade: e.target.value })}
-                            placeholder="Insira prazo estimado para a entrega do produto" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="username">
-                            Data de validade
-                        </Label>
-                        <DatePickerDemo
-                            value={tagPayload.dataValidade}
-                            onChange={(e) => setTagPayload({ ...tagPayload, dataValidade: e.target.value })}
-                            className="col-span-3 w-full"
-                        />
+                            value={tagPayload.cor}
+                            onChange={(e) => setTagPayload({ ...tagPayload, cor: e.target.value })}
+                            placeholder="Selecione uma cor para a tag" />
                     </div>
                 </div>
                 <DialogFooter>

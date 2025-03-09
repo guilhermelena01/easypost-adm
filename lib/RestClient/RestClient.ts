@@ -134,18 +134,17 @@ export class RestClient extends AbstractRestClient {
 
     handleRegisterTags(payload: object) {
         const toastSuccessMsg = "Tag registrada com sucesso!"
-        const url = this.getRequestPath(this.COUPON_PATH);
+        const url = this.getRequestPath(this.ORDER_TAG_PATH);
         const requestInit = this.getRequestInitMethodPost(payload);
 
         return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 
     handleRegisterTicketMessages(payload: object) {
-        const toastSuccessMsg = "Ticket registrado com sucesso!"
         const url = this.getRequestPath(this.TICKET_CHAT_MSG);
         const requestInit = this.getRequestInitMethodPost(payload);
 
-        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
+        return this.fetchDataWithResponse(url, requestInit);
     }
 
     handleCloseTicketMessages(id: number, payload) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { handleResponseError, resolveRequestError } from "../utils/utils";
 import { PayloadType } from "../RestClient/types";
 import handleError from "../handleResponse/handleError";
@@ -232,16 +233,16 @@ export abstract class AbstractRestClient {
                     window.location.href = "/auth/login";
                 }
 
-                return handleResponseError(res, toastify, throws);
+                return handleResponseError(res);
             })
             .catch(err => resolveRequestError(err));
     }
 
-    protected fetchDataWithResponse(url: RequestInfo | URL, reqInit?: RequestInit | undefined, toastSuccessMsg: string): Promise<Response> {
+    protected fetchDataWithResponse(url: RequestInfo | URL, reqInit?: RequestInit | undefined, toastSuccessMsg?: string): Promise<Response> {
         return fetch(url, reqInit)
             .then(res => {
                 if (res.ok) {
-                    handleSuccess(toastSuccessMsg);
+                    toastSuccessMsg ? handleSuccess(`${toastSuccessMsg}`) : res.json();
                 }
                 return res;
             })
