@@ -48,17 +48,27 @@ export class RestClient extends AbstractRestClient {
     }
 
     handleDeleteProducts(id: string | number) {
+        const toastSuccessMsg = "Produto excluido com sucesso!"
         const url = this.getRequestPath(this.ORDER_TYPE_PATH).concat(`/${id.toString()}`)
         const requestInit = this.getRequestInitMethodDelete();
 
-        return this.fetchData(url, requestInit);
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 
     handleDeleteCoupons(id: string | number) {
+        const toastSuccessMsg = "Cupom excluido com sucesso!"
         const url = this.getRequestPath(this.COUPON_PATH).concat(`/${id.toString()}`)
         const requestInit = this.getRequestInitMethodDelete();
 
-        return this.fetchData(url, requestInit);
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
+    }
+
+    handleDeleteTags(id: string | number) {
+        const toastSuccessMsg = "Tag excluida com sucesso!"
+        const url = this.getRequestPath(this.ORDER_TAG_PATH).concat(`/${id.toString()}`)
+        const requestInit = this.getRequestInitMethodDelete();
+
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 
     handleChangeStatusPayment(id: string | number, payload: {}) {
@@ -69,7 +79,7 @@ export class RestClient extends AbstractRestClient {
     }
 
     handleFetchCoupons() {
-        const url = this.getRequestPath(this.COUPON_PATH);
+        const url = this.getRequestPath(this.COUPON_PATH).concat("?size=1000");
         const requestInit = this.getDefaultRequestInitMethodGet();
 
         return this.fetchData(url, requestInit);

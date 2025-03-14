@@ -2,6 +2,7 @@
 import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { EnumRegisterTagsStatus, Tag } from "../types/types"
+import { toast } from "react-toastify"
 
 export default function useTags() {
     const restClient = new RestClient()
@@ -31,8 +32,27 @@ export default function useTags() {
             })
     }
 
+    function deleteTags(tagId: string | number) {
+        setLoading(true)
+        restClient.handleDeleteTags(tagId)
+            .then((res) => {
+                if (res === null) {
+                    setRegisterStatus(EnumRegisterTagsStatus.DELETED_SUCCESSFULL)
+                    return;
+                }
+                if (res.status === 400) {
+                    toast.error(res.detail)
+                    return;
+                }
+            })
+            .catch(() => setRegisterStatus(EnumRegisterTagsStatus.DELETED_UNSUCCESSFULL))
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
     useEffect(() => {
-        if (registerStatus == EnumRegisterTagsStatus.REGISTER_SUCCESSFULL) {
+        if (registerStatus == EnumRegisterTagsStatus.REGISTER_SUCCESSFULL || registerStatus == EnumRegisterTagsStatus.DELETED_SUCCESSFULL) {
             getTags()
             setRegisterStatus("")
         }
@@ -47,5 +67,6 @@ export default function useTags() {
         tags,
         registerStatus,
         registerTags,
+        deleteTags
     }
 }

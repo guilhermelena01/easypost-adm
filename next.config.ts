@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         port: ""
       },
+      {
+        protocol: "https",
+        hostname: 'www.easypostsys.com.br',
+        port: ""
+      }
     ]
   }
 };

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
+import ColorPickerAdvanced from "@/components/ColorPickerAdvanced";
 import { Button } from "@/components/ui/button";
-import { DatePickerDemo } from "@/components/ui/date-picker";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,11 +23,15 @@ export default function TagDialogForm({ handlePayload, registerTag, loading, ope
         "descricao": "",
         "sigla": "",
         "cor": ""
-      })
+    })
 
     useEffect(() => {
         handlePayload(tagPayload)
     }, [tagPayload])
+
+    function handleSelectedColor(color: string) {
+        setTagPayload({ ...tagPayload, cor: color })
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -62,16 +66,7 @@ export default function TagDialogForm({ handlePayload, registerTag, loading, ope
                             onChange={(e) => setTagPayload({ ...tagPayload, sigla: e.target.value })}
                             placeholder="Algo como TAG 123" />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name">
-                            Cor
-                        </Label>
-                        <Input
-                            className="col-span-3"
-                            value={tagPayload.cor}
-                            onChange={(e) => setTagPayload({ ...tagPayload, cor: e.target.value })}
-                            placeholder="Selecione uma cor para a tag" />
-                    </div>
+                    <ColorPickerAdvanced handleSelectedColor={handleSelectedColor} />
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>

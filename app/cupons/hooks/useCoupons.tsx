@@ -3,6 +3,7 @@ import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { Coupon, EnumRegisterCouponsStatus } from "../types/types"
 import { unformatCurrency } from "@/lib/utils/utils"
+import { toast } from "react-toastify"
 
 export default function useCoupons() {
     const restClient = new RestClient()
@@ -43,8 +44,15 @@ export default function useCoupons() {
     function deleteCoupons(coupomId: string | number) {
         setLoading(true)
         restClient.handleDeleteCoupons(coupomId)
-            .then(() => {
-                setRegisterStatus(EnumRegisterCouponsStatus.DELETED_SUCCESSFULL)
+            .then((res: any) => {
+                if (res === null) { // Caso de sucesso (204 No Content)
+                    setRegisterStatus(EnumRegisterCouponsStatus.DELETED_SUCCESSFULL);
+                    return;
+                }
+                if (res.status === 400) { // Caso de erro tratado pela API
+                    toast.error(res.detail);
+                    return;
+                }
             })
             .catch(() => setRegisterStatus(EnumRegisterCouponsStatus.DELETED_UNSUCCESSFULL))
             .finally(() => {

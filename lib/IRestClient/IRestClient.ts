@@ -240,12 +240,20 @@ export abstract class AbstractRestClient {
 
     protected fetchDataWithResponse(url: RequestInfo | URL, reqInit?: RequestInit | undefined, toastSuccessMsg?: string): Promise<Response> {
         return fetch(url, reqInit)
-            .then(res => {
+            .then(async (res) => {
+                if (res.status === 204) {
+                    return null; // Retorna `null` para representar o sucesso sem conteúdo
+                }
+                const data = await res.json();
+
                 if (res.ok) {
                     toastSuccessMsg ? handleSuccess(`${toastSuccessMsg}`) : res.json();
                 }
-                return res;
+                return data;
             })
-            .catch(err => handleError(err));
+            .catch(err => {
+                handleError(err);
+                throw err;
+            });
     }
 }

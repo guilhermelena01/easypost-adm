@@ -63,17 +63,19 @@ export default function MessagesByIdDialog({
                                         >
                                             {!isLoggedUser && (
                                                 <div className="h-8 w-8 rounded-full flex-shrink-0">
-                                                    <Image
-                                                        alt={msg.usuario.nome}
-                                                        src={
-                                                            msg.usuario.urlFoto
-                                                                ? msg.usuario.urlFoto.replace("/var/www", "")
-                                                                : "https://res.cloudinary.com/dbyqw2jjq/image/upload/v1741338839/9706583_xybefi.png"
-                                                        }
-                                                        width={32}
-                                                        height={32}
-                                                        className="rounded-full object-cover"
-                                                    />
+                                                    {msg.usuario.urlFoto && (
+                                                        <Image
+                                                            alt={msg.usuario.nome}
+                                                            src={
+                                                                msg.usuario.urlFoto
+                                                                    ? "https://www.easypostsys.com.br/".concat(msg.usuario.urlFoto.replace("/var/www/", ""))
+                                                                    : "https://res.cloudinary.com/dbyqw2jjq/image/upload/v1741338839/9706583_xybefi.png"
+                                                            }
+                                                            width={32}
+                                                            height={32}
+                                                            className="rounded-full object-cover"
+                                                        />
+                                                    )}
                                                 </div>
                                             )}
                                             <div
@@ -99,17 +101,19 @@ export default function MessagesByIdDialog({
                                             </div>
                                             {isLoggedUser && (
                                                 <div className="h-8 w-8 rounded-full flex-shrink-0">
-                                                    <Image
-                                                        alt={msg.usuario.nome}
-                                                        src={
-                                                            msg.usuario.urlFoto
-                                                                ? msg.usuario.urlFoto.replace("/var/www", "")
-                                                                : "https://res.cloudinary.com/dbyqw2jjq/image/upload/v1741338839/9706583_xybefi.png"
-                                                        }
-                                                        width={32}
-                                                        height={32}
-                                                        className="rounded-full object-cover"
-                                                    />
+                                                    {msg.usuario.urlFoto && (
+                                                        <Image
+                                                            alt={msg.usuario.nome}
+                                                            src={
+                                                                msg.usuario.urlFoto
+                                                                    ? "https://www.easypostsys.com.br/".concat(msg.usuario.urlFoto.replace("/var/www/", ""))
+                                                                    : "https://res.cloudinary.com/dbyqw2jjq/image/upload/v1741338839/9706583_xybefi.png"
+                                                            }
+                                                            width={32}
+                                                            height={32}
+                                                            className="rounded-full object-cover"
+                                                        />
+                                                    )}
                                                 </div>
                                             )}
                                         </div>

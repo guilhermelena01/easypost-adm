@@ -44,8 +44,8 @@ export default function LoginPage() {
                                     onChange={(e) => setLoginPayload({ ...loginPayload, password: e.target.value })}
                                 />
                                 <button onClick={() => setShowPassword(!showPassword)} className="absolute right-2 top-8">
-                                    <Eye className={`${showPassword ? "block" : "hidden"}`} width={18}/>
-                                    <EyeClosed className={`${showPassword ? "hidden" : "block"}`} width={18}/>
+                                    <Eye className={`${showPassword ? "block" : "hidden"}`} width={18} />
+                                    <EyeClosed className={`${showPassword ? "hidden" : "block"}`} width={18} />
                                 </button>
                             </span>
                             <div className="w-full flex justify-between">

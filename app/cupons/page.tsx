@@ -24,7 +24,7 @@ export default function Cupons() {
         registerCoupons(couponPayload, recoveryUSer.id)
     }
 
-    function handleDeleteProducts() {
+    function handleDeleteCoupons() {
         if (coupomId) {
             deleteCoupons(coupomId)
             setShowConfirmationModal(false)
@@ -68,8 +68,8 @@ export default function Cupons() {
                         <Button type="button" variant={"ghost"} onClick={() => setShowConfirmationModal(false)}>
                             Cancelar
                         </Button>
-                        <Button onClick={handleDeleteProducts} variant={"destructive"}>
-                            Excluir produto
+                        <Button onClick={handleDeleteCoupons} variant={"destructive"}>
+                            Excluir cupom
                         </Button>
                     </DialogFooter>
                 </DialogContent>

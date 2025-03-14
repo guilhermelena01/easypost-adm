@@ -1,10 +1,7 @@
-import { Loader } from "lucide-react";
-import Image from "next/image";
+"use client"
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="w-full fixed inset-0 flex justify-center items-center">
-      <Loader className="animate-spin"/>
-    </div>
-  );
+  const router = useRouter()
+  return router.push("/dashboard")
 }
