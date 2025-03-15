@@ -2,6 +2,7 @@ import { RestClient } from "@/lib/RestClient/RestClient"
 import { useEffect, useState } from "react"
 import { EnumCloseTicketMessageStatus, EnumRegisterTicketMessageStatus, TicketMensagemType, TicketMessagesResponse, TicketsType } from "../types/type"
 import { ChatMessageType } from "@/lib/utils/types"
+import { toast } from "react-toastify"
 
 export default function useChat() {
     const restClient = new RestClient()
@@ -82,18 +83,19 @@ export default function useChat() {
 
     }
 
-    function handleCloseTickets(ticketId: number) {
+    function handleCloseTickets(ticketId: number, payload: any) {
         setClosingTicket(true)
-        const payloadToExclude =
-        {
-            "razaoFechamento": ticketId,
-            "detalhesFechamento": "Tinha de finalizar",
-            "notaFechamento": 5
+        const payloadToSend = {
+            ...payload,
+            notaFechamento: 5
         }
 
-
-        restClient.handleCloseTicketMessages(ticketId, payloadToExclude)
+        restClient.handleCloseTicketMessages(ticketId, payloadToSend)
             .then(res => {
+                if (res.status == 400) {
+                    toast.error(res.detail);
+                    return;
+                }
                 setCloseTicketMessagesStatus(EnumCloseTicketMessageStatus.CLOSE_SUCCESSFULL)
             })
             .catch(err => console.error(err))

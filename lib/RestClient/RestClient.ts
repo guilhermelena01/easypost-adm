@@ -157,10 +157,11 @@ export class RestClient extends AbstractRestClient {
         return this.fetchDataWithResponse(url, requestInit);
     }
 
-    handleCloseTicketMessages(id: number, payload) {
+    handleCloseTicketMessages(id: number, payload: any) {
+        const toastSuccessMsg = "Ticket finalizado com sucesso!"
         const url = this.getRequestPath(this.TICKETS_PATH).concat("/").concat(id.toString()).concat("/concluir");
         const requestInit = this.getRequestInitMethodPost(payload);
 
-        return this.fetchData(url, requestInit, true);
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 }
