@@ -1,11 +1,11 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { OrderTableProps } from "../../types/types";
+import { Order, OrderTableProps } from "../../types/types";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 
-export default function OrdersTable({ data, showConfirmationModal, setOrderId, setSelectedStatusPayment }: OrderTableProps) {
+export default function OrdersTable({ data, showConfirmationModal, setOrderId, setSelectedStatusPayment, getSelectedOrderId }: OrderTableProps) {
     const [statusFiltro, setStatusFiltro] = useState("todos");
     const [searchTerm, setSearchTerm] = useState("");
     const [sortColumn, setSortColumn] = useState(null);
@@ -58,6 +58,10 @@ export default function OrdersTable({ data, showConfirmationModal, setOrderId, s
         }
     }
 
+    function getSelectedOrder(id: number) {
+        getSelectedOrderId(id)
+    }
+
     return (
         <>
             <div className="w-full flex justify-end gap-4">
@@ -95,7 +99,7 @@ export default function OrdersTable({ data, showConfirmationModal, setOrderId, s
                 </TableHeader>
                 <TableBody>
                     {dadosFiltrados.map((item, idx) => (
-                        <TableRow key={idx}>
+                        <TableRow onClick={() => getSelectedOrder(item.id)} className="hover:cursor-pointer" key={idx}>
                             <TableCell className="w-1/6">{item.id}</TableCell>
                             <TableCell className="w-1/6">{item.descricao}</TableCell>
                             <TableCell className="w-1/6">{item.descricaoProduto}</TableCell>

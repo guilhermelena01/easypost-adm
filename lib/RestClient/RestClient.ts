@@ -15,28 +15,28 @@ export class RestClient extends AbstractRestClient {
         const url = this.getRequestPath(this.AUTH_PATH);
         const requestInit = this.getDefaultRequestInitMethodPostAuthentication(payload);
 
-        return this.fetchData(url, requestInit, true);
+        return this.fetchData(url, requestInit);
     }
 
     handleFetchProductsFromMock() {
         const url = this.getRequestPathMockIo(this.MOCK_PRODUCTS);
         const requestInit = this.getDefaultRequestInitMethodGetWithouToken();
 
-        return this.fetchData(url, requestInit, true);
+        return this.fetchData(url, requestInit);
     }
 
     handleFetchProducts() {
         const url = this.getRequestPath(this.ORDER_TYPE_PATH);
         const requestInit = this.getDefaultRequestInitMethodGet();
 
-        return this.fetchData(url, requestInit, true);
+        return this.fetchData(url, requestInit);
     }
 
     handleFetchOrders() {
-        const url = this.getRequestPath(this.ORDER_PATH).concat("?page=0");
+        const url = this.getRequestPath(this.ORDER_PATH.concat(this.ALL_PAYMENTS_PATH)).concat("?page=0");
         const requestInit = this.getDefaultRequestInitMethodGet();
 
-        return this.fetchData(url, requestInit, true);
+        return this.fetchData(url, requestInit);
     }
 
     handleRegisterProducts(payload: object) {

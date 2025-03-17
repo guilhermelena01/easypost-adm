@@ -9,7 +9,7 @@ export default function useFinancial() {
     const [loadingOrders, setLoadingOrders] = useState(false)
     const [registerStatus, setRegisterStatus] = useState<EnumRegisterOrderStatus | string>("")
 
-    function getOrders() {
+    function getOrdersPayments() {
         setLoadingOrders(true)
         restClient.handleFetchOrders()
             .then(res => {
@@ -36,12 +36,12 @@ export default function useFinancial() {
 
     useEffect(() => {
         if (registerStatus == EnumRegisterOrderStatus.DELETED_SUCCESSFULL || registerStatus == EnumRegisterOrderStatus.REGISTER_SUCCESSFULL) {
-            getOrders()
+            getOrdersPayments()
         }
     }, [registerStatus])
 
     useEffect(() => {
-        getOrders()
+        getOrdersPayments()
     }, [])
 
     return {

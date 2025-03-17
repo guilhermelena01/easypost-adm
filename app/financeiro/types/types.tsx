@@ -9,6 +9,7 @@ export type Order = {
     valor: number;
     descricaoAlteracao: string | null;
     status: "ABERTO" | "ANDAMENTO" | "AGUARDANDO" | "ENTREGUE";
+    pagamentoStatus: string;
     dataAceite: string | null;
     dataConclusao: string | null;
     dataLimite: string | null;
@@ -50,6 +51,7 @@ export interface OrderTableProps {
     showConfirmationModal: (show: boolean) => void;
     setOrderId: (id: string | number) => void;
     setSelectedStatusPayment: (status: string) => void;
+    getSelectedOrderId: (id: number) => void;
 }
 
 export enum EnumRegisterOrderStatus {

@@ -13,6 +13,7 @@ export abstract class AbstractRestClient {
     protected AUTH_PATH = "/login/auth";
     protected RESET_PASSWORD = "/reset";
     protected ORDER_PATH = "/pedidos";
+    protected ALL_PAYMENTS_PATH = "/pagamento/todos";
     protected DELIVER_PATH = "/entregar";
     protected PAYMENT_PATH = "/mp/process_payment";
     protected ORDER_TAG_PATH = "/pedidoTags";
