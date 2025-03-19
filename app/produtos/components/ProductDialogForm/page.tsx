@@ -52,13 +52,13 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name">
-                            Descrição
+                            Título
                         </Label>
                         <Input
                             className="col-span-3"
                             value={productPayload.descricao}
                             onChange={(e) => setProductPayload({ ...productPayload, descricao: e.target.value })}
-                            placeholder="Insira a descrição do produto" />
+                            placeholder="Insira o título do produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
@@ -72,24 +72,26 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
                             placeholder="Insira o valor do produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name">
+                            Quantidade de horas para a entrega
+                        </Label>
+                        <Input
+                            type="number"
+                            value={productPayload.tempoLimite}
+                            onChange={(e) => setProductPayload({ ...productPayload, tempoLimite: e.target.value })}
+                            className="col-span-3"
+                            placeholder="Insira a quantidade de horas para a entrega do produto"
+                        />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
-                            Resolução
+                            Descrição
                         </Label>
                         <Input
                             value={productPayload.resolucao}
                             onChange={(e) => setProductPayload({ ...productPayload, resolucao: e.target.value })}
-                            placeholder="Insira uma resolução para o produto"
+                            placeholder="Insira uma descrição para o produto"
                             className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name">
-                            Prazo limite para entrega
-                        </Label>
-                        <DatePickerDemo
-                            className="col-span-3"
-                            value={productPayload.tempoLimite}
-                            onChange={(e) => setProductPayload({ ...productPayload, tempoLimite: e.target.value })}
-                            placeholder="Insira o prazo limite para a entrega do produto" />
                     </div>
                     <ProductIconPicker handlePayload={getProductIcon} />
                 </div>

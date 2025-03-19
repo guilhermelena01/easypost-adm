@@ -62,8 +62,8 @@ export default function LoginPage() {
                         </span>
                     </div>
                 </section>
-                <section className="md:w-2/5 bg-black border border-gray-800 bg-gradient-to-b from-black to-[#111] rounded-l-md shadow-lg flex justify-center items-center">
-                    <Image alt="logo easypost" src={"https://res.cloudinary.com/dbyqw2jjq/image/upload/v1739504039/admin_2_rzjb7i.png"} width={780} height={240} />
+                <section className="md:w-2/5 bg-black border border-gray-800 bg-gradient-to-b rounded-l-md shadow-lg flex justify-center items-center">
+                    <Image className="w-1/3" alt="logo easypost" src={"https://res.cloudinary.com/dbyqw2jjq/image/upload/v1739504039/admin_2_rzjb7i.png"} width={780} height={240} />
                 </section>
             </main>
         </>

@@ -21,9 +21,12 @@ export default function useFinancial() {
 
     function handleChangePayment(orderId: string | number, status: string) {
         setLoading(true)
+        setRegisterStatus("")
+
         const payload = {
             status: status
         }
+        
         restClient.handleChangeStatusPayment(orderId, payload)
             .then(() => {
                 setRegisterStatus(EnumRegisterOrderStatus.REGISTER_SUCCESSFULL)
@@ -35,6 +38,7 @@ export default function useFinancial() {
     }
 
     useEffect(() => {
+        console.log(registerStatus)
         if (registerStatus == EnumRegisterOrderStatus.DELETED_SUCCESSFULL || registerStatus == EnumRegisterOrderStatus.REGISTER_SUCCESSFULL) {
             getOrdersPayments()
         }
