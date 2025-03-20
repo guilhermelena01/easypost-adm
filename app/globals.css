@@ -87,7 +87,21 @@ body {
   }
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+  height: 8px;
+  border-radius: 30px;
+}
 
+::-webkit-scrollbar-thumb {
+  background-color: #1f313d;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: white transparent;
+  border-radius: 30px;
+}
 
 @layer base {
   * {

@@ -9,6 +9,7 @@ import { LoaderCircle } from "lucide-react";
 import LoaderComponent from "@/components/Loader";
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from "@/components/ui/sheet";
 import { Order } from "./types/types";
+import Image from "next/image";
 
 export default function Financeiro() {
     const { loading, loadingOrders, orders, handleChangePayment } = useFinancial()
@@ -81,70 +82,72 @@ export default function Financeiro() {
                         </SheetHeader>
 
                         {selectedOrder && selectedOrder.length > 0 ? selectedOrder.map((order: Order, idx) => (
-                            <div className="flex flex-col gap-4">
-                                <span className="flex gap-1 justify-between items-center">
-                                    Pedido #{order.id}
+                            <div className="flex flex-col h-dvh">
+                                <span className="flex gap-1 justify-between items-center my-8">
+                                    <p className="text-xl">Pedido #{order.id}</p>
                                     <span className="text-sm w-fit px-3 py-2 rounded-full text-white font-bold"
                                         style={{ backgroundColor: handleStatus(order.pagamentoStatus) }}
                                     >
                                         {order.pagamentoStatus}
                                     </span>
                                 </span>
-                                <div className="flex flex-col gap-2">
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Data de aceite do pedido</p>
-                                        <p>{order.dataAceite ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Data de conclusão</p>
-                                        <p>{order.dataConclusao ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Descrição</p>
-                                        <p>{order.descricao ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Descrição alteração</p>
-                                        <p>{order.descricaoAlteracao ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Descrição do produto</p>
-                                        <p>{order.descricaoProduto ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Identificador do pedido</p>
-                                        <p>{order.identificador ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Status do pedido</p>
-                                        <p>{order.status ?? "N/A"}</p>
-                                    </span>
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <h3 className="font-bold">Tipo do pedido</h3>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Descrição</p>
-                                        <p>{order.pedidoTipo.descricao ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Resolução</p>
-                                        <p>{order.pedidoTipo.resolucao ?? "N/A"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Tempo limite</p>
-                                        <p>{order.pedidoTipo.tempoLimite ?? "N/A"} {order.pedidoTipo.tempoLimite && "minutos"}</p>
-                                    </span>
-                                    <span className="flex flex-col gap-0.5">
-                                        <p className="text-sm text-[#aeaeae] font-bold">Valor</p>
-                                        <p>{order.pedidoTipo.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" }) ?? "N/A"}</p>
-                                    </span>
-                                </div>
+                                <section className="gap-4 overflow-scroll">
+                                    <div className="flex flex-col gap-2">
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Data de aceite do pedido</p>
+                                            <p>{order.dataAceite ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Data de conclusão</p>
+                                            <p>{order.dataConclusao ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Descrição</p>
+                                            <p>{order.descricao ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Descrição alteração</p>
+                                            <p>{order.descricaoAlteracao ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Descrição do produto</p>
+                                            <p>{order.descricaoProduto ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Identificador do pedido</p>
+                                            <p>{order.identificador ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Status do pedido</p>
+                                            <p>{order.status ?? "N/A"}</p>
+                                        </span>
+                                    </div>
+                                    <hr className="my-4" />
+                                    <div className="flex flex-col gap-2">
+                                        <h3 className="mb-4 text-lg">Tipo do pedido</h3>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Descrição</p>
+                                            <p>{order.pedidoTipo.descricao ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Resolução</p>
+                                            <p>{order.pedidoTipo.resolucao ?? "N/A"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Tempo limite</p>
+                                            <p>{order.pedidoTipo.tempoLimite ?? "N/A"} {order.pedidoTipo.tempoLimite && "minutos"}</p>
+                                        </span>
+                                        <span className="flex flex-col gap-0.5">
+                                            <p className="text-sm text-[#aeaeae] font-bold">Valor</p>
+                                            <p>{order.pedidoTipo.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" }) ?? "N/A"}</p>
+                                        </span>
+                                    </div>
+                                </section>
 
                             </div>
                         ))
                             : ""
                         }
-                        {console.log(selectedOrder)}
                     </SheetContent>
                 </Sheet>
             </section >
