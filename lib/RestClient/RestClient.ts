@@ -54,6 +54,13 @@ export class RestClient extends AbstractRestClient {
         return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 
+    handleEditTags(payload: object, tagId: string | number) {
+        const toastSuccessMsg = "Tag editada com sucesso!"
+        const url = this.getRequestPath(this.ORDER_TAG_PATH).concat(`/${tagId}`);
+        const requestInit = this.getRequestInitMethodPut(payload);
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
+    }
+
     handleDeleteProducts(id: string | number) {
         const toastSuccessMsg = "Produto excluido com sucesso!"
         const url = this.getRequestPath(this.ORDER_TYPE_PATH).concat(`/${id.toString()}`)

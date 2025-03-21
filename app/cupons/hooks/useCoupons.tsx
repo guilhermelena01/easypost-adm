@@ -56,8 +56,15 @@ export default function useCoupons() {
             }
         }
         restClient.handleEditCoupons(payloadToSend, productId)
-            .then(() => {
-                setRegisterStatus(EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL)
+            .then((res) => {
+                if (res === null) { // Caso de sucesso (204 No Content)
+                    setRegisterStatus(EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL);
+                    return;
+                }
+                if (res.status === 400) { // Caso de erro tratado pela API
+                    toast.error(res.detail);
+                    return;
+                }
             })
             .catch(() => setRegisterStatus(EnumRegisterCouponsStatus.REGISTER_UNSUCCESSFULL))
             .finally(() => {

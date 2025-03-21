@@ -32,6 +32,18 @@ export default function useTags() {
             })
     }
 
+    function editTags(tagPayload: Tag, tagId: string | number) {
+        setLoading(true)
+        restClient.handleEditTags(tagPayload, tagId)
+            .then(() => {
+                setRegisterStatus(EnumRegisterTagsStatus.REGISTER_SUCCESSFULL)
+            })
+            .catch(() => setRegisterStatus(EnumRegisterTagsStatus.REGISTER_UNSUCCESSFULL))
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
     function deleteTags(tagId: string | number) {
         setLoading(true)
         restClient.handleDeleteTags(tagId)
@@ -67,6 +79,7 @@ export default function useTags() {
         tags,
         registerStatus,
         registerTags,
-        deleteTags
+        deleteTags,
+        editTags
     }
 }

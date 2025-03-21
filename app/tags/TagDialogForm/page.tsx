@@ -10,20 +10,27 @@ import { LoaderCircle, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface TagDialogFormProps {
-    registerTag: () => void;
+    handleTag: () => void;
     handlePayload: (payload: any) => void;
     loading: boolean;
     open: boolean;
     setOpen: (open: boolean) => void;
+    edit?: boolean;
+    setEdit?: (edit: string) => void;
 }
 
-export default function TagDialogForm({ handlePayload, registerTag, loading, open, setOpen }: TagDialogFormProps) {
+export default function TagDialogForm({ handlePayload, handleTag, loading, open, setOpen, edit, setEdit }: TagDialogFormProps) {
 
     const [tagPayload, setTagPayload] = useState({
         "descricao": "",
         "sigla": "",
         "cor": ""
     })
+
+    function handleModal(show: boolean) {
+        setOpen(show)
+        edit && setEdit!("")
+    }
 
     useEffect(() => {
         handlePayload(tagPayload)
@@ -43,7 +50,9 @@ export default function TagDialogForm({ handlePayload, registerTag, loading, ope
             </DialogTrigger>
             <DialogContent className="w-full">
                 <DialogHeader>
-                    <DialogTitle>Cadastrar nova tag</DialogTitle>
+                    <DialogTitle>
+                    {edit ? "Edição de" : "Cadastrar nova"} tag
+                    </DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -69,13 +78,13 @@ export default function TagDialogForm({ handlePayload, registerTag, loading, ope
                     <ColorPickerAdvanced handleSelectedColor={handleSelectedColor} />
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="button" variant={"ghost"}>
+                    <DialogClose>
+                        <Button onClick={() => handleModal(false)} type="button" variant={"ghost"}>
                             Cancelar
                         </Button>
                     </DialogClose>
-                    <Button onClick={registerTag}>
-                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar tag"}
+                    <Button onClick={handleTag}>
+                        {loading ? <LoaderCircle className="animate-spin" /> : edit ? "Editar tag" : "Cadastrar tag"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

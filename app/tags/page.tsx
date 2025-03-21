@@ -12,11 +12,12 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { Button } from "@/components/ui/button";
 
 export default function Tags() {
-    const { tags, loading, registerTags, registerStatus, deleteTags } = useTags()
+    const { tags, loading, registerTags, registerStatus, deleteTags, editTags } = useTags()
     const [tagPayload, setTagPayload] = useState()
     const [tagId, setTagId] = useState("")
     const [showTagDialog, setShowTagDialog] = useState(false)
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+    const [modalType, setModalType] = useState<"edit" | "remove" | string>("")
 
     function handleRegisterTags() {
         registerTags(tagPayload)
@@ -29,8 +30,20 @@ export default function Tags() {
         }
     }
 
+    function handleModal(show: boolean, modalType: string) {
+        setShowConfirmationModal(show)
+        setModalType(modalType)
+    }
+
+    function handleEditTags() {
+        editTags(tagPayload, tagId)
+    }
+
     useEffect(() => {
-        registerStatus == EnumRegisterTagsStatus.REGISTER_SUCCESSFULL && setShowTagDialog(false)
+        if (registerStatus == EnumRegisterTagsStatus.REGISTER_SUCCESSFULL) {
+            setShowTagDialog(false)
+            setModalType("")
+        }
     }, [registerStatus])
 
     return (
@@ -38,17 +51,19 @@ export default function Tags() {
             <h1 className={`text-2xl font-bold ${montserrat.className}`}>Tags</h1>
             <TagTable
                 data={tags}
-                showConfirmationModal={setShowConfirmationModal}
+                showConfirmationModal={handleModal}
                 setTagId={setTagId}
             />
             <TagDialogForm
                 handlePayload={setTagPayload}
-                registerTag={handleRegisterTags}
+                handleTag={modalType == "edit" ? handleEditTags : handleRegisterTags}
                 loading={loading}
-                open={showTagDialog}
+                open={showTagDialog || modalType == "edit"}
                 setOpen={setShowTagDialog}
+                edit={modalType == "edit"}
+                setEdit={setModalType}
             />
-            <Dialog open={showConfirmationModal}>
+            <Dialog open={showConfirmationModal && modalType == "remove"}>
                 <DialogContent className="w-[420px]">
                     <DialogTitle>Deseja realmente excluir este produto?</DialogTitle>
                     <DialogDescription>

@@ -11,9 +11,6 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { Button } from "@/components/ui/button";
 import LoaderComponent from "@/components/Loader";
 import { EnumRegisterProductStatus, Product } from "./types/types";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import ProductIconPicker from "./components/ProductIconPicker/page";
 
 export default function Produtos() {
     const { products, loading, registerProducts, registerStatus, deleteProducts, loadingProducts, editProducts } = UseProduct()

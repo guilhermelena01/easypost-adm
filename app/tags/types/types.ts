@@ -10,7 +10,7 @@ export type Tag = {
 //INTERFACE
 export interface TagsTableProps {
     data: Array<Tag>;
-    showConfirmationModal: (show: boolean) => void;
+    showConfirmationModal: (show: boolean, modalType: "remove" | "edit") => void;
     setTagId: (id: string | number) => void;
 }
 

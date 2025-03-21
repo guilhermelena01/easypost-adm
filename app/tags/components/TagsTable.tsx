@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { TagsTableProps } from "../types/types";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function TagTable({ data, showConfirmationModal, setTagId }: TagsTableProps) {
@@ -13,13 +13,13 @@ export default function TagTable({ data, showConfirmationModal, setTagId }: Tags
     const [statusFiltro, setStatusFiltro] = useState("ATIVO");
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
 
-    function handleConfirmationModal(id: string | number) {
+    function handleConfirmationModal(id: string | number, modalType: "remove" | "edit") {
         setTagId(id);
-        showConfirmationModal(true);
+        showConfirmationModal(true, modalType);
     }
 
     function handleColor(color: string) {
-        return <div style={{backgroundColor: color}} className={`rounded-full h-6 w-6`}></div>;
+        return <div style={{ backgroundColor: color }} className={`rounded-full h-6 w-6`}></div>;
     }
 
     function handleSort(key: string) {
@@ -100,12 +100,13 @@ export default function TagTable({ data, showConfirmationModal, setTagId }: Tags
                             <TableCell>{item.sigla}</TableCell>
                             <TableCell>{handleColor(item.cor)}</TableCell>
                             <TableCell>{item.status ?? "Sem status definido"}</TableCell>
-                            <TableCell>
-                                <div className="flex gap-2">
-                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmationModal(item.id)}>
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </div>
+                            <TableCell className="flex gap-2">
+                                <Button title="Editar" variant="outline" size="icon" onClick={() => handleConfirmationModal(item.id, "edit")}>
+                                    <Edit className="h-4 w-4" />
+                                </Button>
+                                <Button title="Excluir" variant="destructive" size="icon" onClick={() => handleConfirmationModal(item.id, "remove")}>
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}

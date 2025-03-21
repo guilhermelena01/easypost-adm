@@ -18,11 +18,11 @@ import { useEffect, useState } from "react"
 
 // Menu items.
 const items = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Home,
-  },
+  // {
+  //   title: "Dashboard",
+  //   url: "/dashboard",
+  //   icon: Home,
+  // },
   {
     title: "Financeiro",
     url: "/financeiro",
