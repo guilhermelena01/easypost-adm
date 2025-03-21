@@ -35,8 +35,15 @@ export default function useTags() {
     function editTags(tagPayload: Tag, tagId: string | number) {
         setLoading(true)
         restClient.handleEditTags(tagPayload, tagId)
-            .then(() => {
-                setRegisterStatus(EnumRegisterTagsStatus.REGISTER_SUCCESSFULL)
+            .then((res) => {
+                if (res === null) { // Caso de sucesso (204 No Content)
+                    setRegisterStatus(EnumRegisterTagsStatus.REGISTER_SUCCESSFULL);
+                    return;
+                }
+                if (res.status === 400) { // Caso de erro tratado pela API
+                    toast.error(res.detail);
+                    return;
+                }
             })
             .catch(() => setRegisterStatus(EnumRegisterTagsStatus.REGISTER_UNSUCCESSFULL))
             .finally(() => {

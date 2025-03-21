@@ -45,8 +45,15 @@ export default function UseProduct() {
             valor: unformatCurrency(productPayload.valor.toString()),
         }
         restClient.handleEditProducts(payloadToSend, productId)
-            .then(() => {
-                setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL)
+            .then((res) => {
+                if (res === null) { // Caso de sucesso (204 No Content)
+                    setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL);
+                    return;
+                }
+                if (res.status === 400) { // Caso de erro tratado pela API
+                    toast.error(res.detail);
+                    return;
+                }
             })
             .catch(() => setRegisterStatus(EnumRegisterProductStatus.REGISTER_UNSUCCESSFULL))
             .finally(() => {
