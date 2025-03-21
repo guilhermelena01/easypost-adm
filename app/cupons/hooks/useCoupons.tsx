@@ -41,6 +41,30 @@ export default function useCoupons() {
             })
     }
 
+
+    function editCoupons(couponPayload: Coupon, productId: string | number) {
+        setLoading(true)
+        const recoveryUSer = localStorage.getItem("user")
+        const parsedUser = JSON.parse(recoveryUSer)
+
+        console.log(recoveryUSer)
+        const payloadToSend = {
+            ...couponPayload,
+            valor: unformatCurrency(couponPayload.valor.toString()),
+            usuario: {
+                id: parsedUser!.id
+            }
+        }
+        restClient.handleEditCoupons(payloadToSend, productId)
+            .then(() => {
+                setRegisterStatus(EnumRegisterCouponsStatus.REGISTER_SUCCESSFULL)
+            })
+            .catch(() => setRegisterStatus(EnumRegisterCouponsStatus.REGISTER_UNSUCCESSFULL))
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
     function deleteCoupons(coupomId: string | number) {
         setLoading(true)
         restClient.handleDeleteCoupons(coupomId)
@@ -78,5 +102,6 @@ export default function useCoupons() {
         coupons,
         registerStatus,
         registerCoupons,
+        editCoupons
     }
 }

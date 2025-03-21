@@ -14,6 +14,7 @@ import {
 import Image from "next/image"
 import { Button } from "./ui/button"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 // Menu items.
 const items = [
@@ -38,20 +39,21 @@ const items = [
     icon: Ticket,
   },
   {
-    title: "Atendimento/Helpdesk",
-    url: "/atendimento-helpdesk",
-    icon: MessageCircleQuestion,
-  },
-  {
     title: "Tags",
     url: "/tags",
     icon: Tag,
+  },
+  {
+    title: "Atendimento/Helpdesk",
+    url: "/atendimento-helpdesk",
+    icon: MessageCircleQuestion,
   },
 ]
 
 
 export function AppSidebar() {
   const router = useRouter()
+  const [param, setParam] = useState<string | undefined>("")
 
   function handleLoggout() {
     localStorage.removeItem("token")
@@ -59,6 +61,13 @@ export function AppSidebar() {
 
     router.push("auth/login")
   }
+
+  useEffect(() => {
+    const href = window.location.href
+    const param = href.split("/").pop()
+
+    setParam(param)
+  }, [])
 
   return (
     <Sidebar>
@@ -70,9 +79,9 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem className={`${param == item.title.toLowerCase() && "border-r-4 border-black"}`} key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a className="py-5 px-4" href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
@@ -83,7 +92,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarFooter className="w-full flex items-start">
-          <Button onClick={handleLoggout} variant={"ghost"}>
+          <Button className="text-red-500" onClick={handleLoggout} variant={"ghost"}>
             <LogOut />
             Logout
           </Button>

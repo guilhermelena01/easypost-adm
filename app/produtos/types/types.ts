@@ -1,4 +1,5 @@
 export type Product = {
+    status?: string;
     id?: number;
     valor: number;
     resolucao: string;
@@ -9,7 +10,7 @@ export type Product = {
 
 export interface ProductTableProps {
     data: Array<Product>;
-    showConfirmationModal: (show: boolean) => void;
+    showConfirmationModal: (show: boolean, modalType: "remove" | "edit") => void;
     setProductId: (id: string | number) => void;
 }
 

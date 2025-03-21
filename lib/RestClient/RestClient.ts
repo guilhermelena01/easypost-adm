@@ -47,6 +47,13 @@ export class RestClient extends AbstractRestClient {
         return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 
+    handleEditProducts(payload: object, productId: string | number) {
+        const toastSuccessMsg = "Produto editado com sucesso!"
+        const url = this.getRequestPath(this.ORDER_TYPE_PATH).concat(`/${productId}`);
+        const requestInit = this.getRequestInitMethodPut(payload);
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
+    }
+
     handleDeleteProducts(id: string | number) {
         const toastSuccessMsg = "Produto excluido com sucesso!"
         const url = this.getRequestPath(this.ORDER_TYPE_PATH).concat(`/${id.toString()}`)
@@ -60,6 +67,13 @@ export class RestClient extends AbstractRestClient {
         const url = this.getRequestPath(this.COUPON_PATH).concat(`/${id.toString()}`)
         const requestInit = this.getRequestInitMethodDelete();
 
+        return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
+    }
+
+    handleEditCoupons(payload: object, couponId: string | number) {
+        const toastSuccessMsg = "Cupom editado com sucesso!"
+        const url = this.getRequestPath(this.COUPON_PATH).concat(`/${couponId}`);
+        const requestInit = this.getRequestInitMethodPut(payload);
         return this.fetchDataWithResponse(url, requestInit, toastSuccessMsg);
     }
 

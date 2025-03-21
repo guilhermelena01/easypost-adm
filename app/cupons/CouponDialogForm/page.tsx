@@ -11,14 +11,16 @@ import { LoaderCircle, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface CouponDialogFormProps {
-    registerCoupon: () => void;
+    handleCoupon: () => void;
     handlePayload: (payload: any) => void;
     loading: boolean;
     open: boolean;
     setOpen: (open: boolean) => void;
+    edit?: boolean;
+    setEdit?: (edit: string) => void;
 }
 
-export default function CouponDialogForm({ handlePayload, registerCoupon, loading, open, setOpen }: CouponDialogFormProps) {
+export default function CouponDialogForm({ handlePayload, handleCoupon, loading, open, setOpen, edit, setEdit }: CouponDialogFormProps) {
 
     const [couponPayload, setCouponPayload] = useState({
         codigo: "",
@@ -31,6 +33,11 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
         handlePayload(couponPayload)
     }, [couponPayload])
 
+    function handleModal(show: boolean) {
+        setOpen(show)
+        edit && setEdit!("")
+    }
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="fixed right-8 bottom-8">
@@ -41,7 +48,9 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
             </DialogTrigger>
             <DialogContent className="w-full">
                 <DialogHeader>
-                    <DialogTitle>Cadastrar novo cupom</DialogTitle>
+                    <DialogTitle>
+                        {edit ? "Edição de" : "Cadastrar novo"} cupom
+                    </DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -87,12 +96,12 @@ export default function CouponDialogForm({ handlePayload, registerCoupon, loadin
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button type="button" variant={"ghost"}>
+                        <Button onClick={() => handleModal(false)} type="button" variant={"ghost"}>
                             Cancelar
                         </Button>
                     </DialogClose>
-                    <Button onClick={registerCoupon}>
-                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar cupom"}
+                    <Button onClick={handleCoupon}>
+                        {loading ? <LoaderCircle className="animate-spin" /> : edit ? "Editar cupom" : "Cadastrar cupom"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

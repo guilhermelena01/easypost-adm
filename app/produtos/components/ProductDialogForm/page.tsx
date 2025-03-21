@@ -8,18 +8,19 @@ import { LoaderCircle, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Product } from "../../types/types";
 import { formatCurrency } from "@/lib/utils/utils";
-import { DatePickerDemo } from "@/components/ui/date-picker";
 import ProductIconPicker from "../ProductIconPicker/page";
 
 interface ProductDialogFormProps {
-    registerProduct: () => void;
+    handleProduct: () => void;
     handlePayload: (payload: any) => void;
     loading: boolean;
     open: boolean;
     setOpen: (open: boolean) => void;
+    edit?: boolean;
+    setEdit?: (edit: string) => void;
 }
 
-export default function ProductDialogForm({ handlePayload, registerProduct, loading, open, setOpen }: ProductDialogFormProps) {
+export default function ProductDialogForm({ handlePayload, handleProduct, loading, open, setOpen, edit, setEdit }: ProductDialogFormProps) {
 
     const [productPayload, setProductPayload] = useState<Product>({
         cor: "",
@@ -37,6 +38,11 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
         setProductPayload({ ...productPayload, cor: icon })
     }
 
+    function handleModal(show: boolean) {
+        setOpen(show)
+        edit && setEdit!("")
+    }
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="fixed right-8 bottom-8">
@@ -47,7 +53,9 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
             </DialogTrigger>
             <DialogContent className="w-full">
                 <DialogHeader>
-                    <DialogTitle>Cadastrar novo produto</DialogTitle>
+                    <DialogTitle>
+                        {edit ? "Edição de" : "Cadastrar novo"} produto
+                    </DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -96,13 +104,13 @@ export default function ProductDialogForm({ handlePayload, registerProduct, load
                     <ProductIconPicker handlePayload={getProductIcon} />
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type="button" variant={"ghost"}>
+                    <DialogClose>
+                        <Button onClick={() => handleModal(false)} type="button" variant={"ghost"}>
                             Cancelar
                         </Button>
                     </DialogClose>
-                    <Button onClick={registerProduct}>
-                        {loading ? <LoaderCircle className="animate-spin" /> : "Cadastrar produto"}
+                    <Button onClick={handleProduct}>
+                        {loading ? <LoaderCircle className="animate-spin" /> : edit ? "Editar produto" : "Cadastrar produto"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

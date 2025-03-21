@@ -7,20 +7,28 @@ import ProductTable from "./components/ProductTable/page";
 import ProductDialogForm from "./components/ProductDialogForm/page";
 import UseProduct from "./hooks/useProduct";
 import { useEffect, useState } from "react";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import LoaderComponent from "@/components/Loader";
-import { EnumRegisterProductStatus } from "./types/types";
+import { EnumRegisterProductStatus, Product } from "./types/types";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import ProductIconPicker from "./components/ProductIconPicker/page";
 
 export default function Produtos() {
-    const { products, loading, registerProducts, registerStatus, deleteProducts, loadingProducts } = UseProduct()
-    const [payload, setPayload] = useState()
+    const { products, loading, registerProducts, registerStatus, deleteProducts, loadingProducts, editProducts } = UseProduct()
+    const [payload, setPayload] = useState<Product | any>()
     const [showConfirmationModal, setShowConfirmationModal] = useState(false)
     const [productId, setProductId] = useState("")
     const [showProductDialog, setShowProductDialog] = useState(false)
+    const [modalType, setModalType] = useState<"edit" | "remove" | string>("")
 
     function handleRegisterProducts() {
         registerProducts(payload)
+    }
+
+    function handleEditProducts() {
+        editProducts(payload, productId)
     }
 
     function handleDeleteProducts() {
@@ -30,9 +38,17 @@ export default function Produtos() {
         }
     }
 
+    function handleModal(show: boolean, modalType: string) {
+        setShowConfirmationModal(show)
+        setModalType(modalType)
+    }
+
     useEffect(() => {
-        registerStatus == EnumRegisterProductStatus.REGISTER_SUCCESSFULL && setShowProductDialog(false)
-    },[registerStatus])
+        if (registerStatus == EnumRegisterProductStatus.REGISTER_SUCCESSFULL) {
+            setShowProductDialog(false)
+            setModalType("")
+        }
+    }, [registerStatus])
 
     return (
         <section className="w-full h-dvh flex flex-col gap-8 py-8 pr-8">
@@ -40,18 +56,21 @@ export default function Produtos() {
             {loadingProducts ? <LoaderComponent /> :
                 <ProductTable
                     data={products}
-                    showConfirmationModal={setShowConfirmationModal}
+                    showConfirmationModal={handleModal}
                     setProductId={setProductId}
                 />
             }
             <ProductDialogForm
                 handlePayload={setPayload}
-                registerProduct={handleRegisterProducts}
+                handleProduct={modalType == "edit" ? handleEditProducts : handleRegisterProducts}
                 loading={loading}
-                open={showProductDialog}
+                open={showProductDialog || modalType == "edit"}
                 setOpen={setShowProductDialog}
+                edit={modalType == "edit"}
+                setEdit={setModalType}
             />
-            <Dialog open={showConfirmationModal}>
+
+            <Dialog open={showConfirmationModal && modalType == "remove"} onOpenChange={setShowConfirmationModal}>
                 <DialogContent className="w-[420px]">
                     <DialogTitle>Deseja realmente excluir este produto?</DialogTitle>
                     <DialogDescription>

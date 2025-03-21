@@ -117,13 +117,13 @@ export abstract class AbstractRestClient {
         return requestInit;
     }
 
-    protected getRequestInitMethodPut(json: string) {
+    protected getRequestInitMethodPut(payload: string) {
         const requestInit: RequestInit = {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: "Bearer ".concat(this.getToken()),
             },
-            body: json,
+            body: JSON.stringify(payload),
             method: "PUT",
         };
 

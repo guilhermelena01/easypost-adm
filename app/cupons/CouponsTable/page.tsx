@@ -5,7 +5,7 @@ import { formatDate } from "@/lib/utils/utils";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function CouponTable({ data, loading, setCoupomId, showConfirmationModal }: CouponsTableProps) {
@@ -43,9 +43,9 @@ export default function CouponTable({ data, loading, setCoupomId, showConfirmati
         return 0;
     });
 
-    const handleConfirmatioModal = (id: string | number) => {
+    const handleConfirmatioModal = (id: string | number, modalType: "remove" | "edit") => {
         setCoupomId(id);
-        showConfirmationModal(true);
+        showConfirmationModal(true, modalType);
     };
 
     const options = ["ATIVO", "INATIVO"];
@@ -111,7 +111,10 @@ export default function CouponTable({ data, loading, setCoupomId, showConfirmati
                             <TableCell>{item.status}</TableCell>
                             <TableCell>
                                 <div className="flex gap-2">
-                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmatioModal(item.id)}>
+                                    <Button title="Editar" variant="outline" size="icon" onClick={() => handleConfirmatioModal(item.id, "edit")}>
+                                        <Edit className="h-4 w-4" />
+                                    </Button>
+                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmatioModal(item.id, "remove")}>
                                         <Trash2 className="h-4 w-4" />
                                     </Button>
                                 </div>

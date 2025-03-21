@@ -38,6 +38,22 @@ export default function UseProduct() {
             })
     }
 
+    function editProducts(productPayload: Product, productId: string | number) {
+        setLoading(true)
+        const payloadToSend = {
+            ...productPayload,
+            valor: unformatCurrency(productPayload.valor.toString()),
+        }
+        restClient.handleEditProducts(payloadToSend, productId)
+            .then(() => {
+                setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL)
+            })
+            .catch(() => setRegisterStatus(EnumRegisterProductStatus.REGISTER_UNSUCCESSFULL))
+            .finally(() => {
+                setLoading(false)
+            })
+    }
+
     function deleteProducts(productId: string | number) {
         setDeletingProduct(true)
         restClient.handleDeleteProducts(productId)
@@ -74,6 +90,7 @@ export default function UseProduct() {
         products,
         registerStatus,
         registerProducts,
-        deleteProducts
+        deleteProducts,
+        editProducts
     }
 }

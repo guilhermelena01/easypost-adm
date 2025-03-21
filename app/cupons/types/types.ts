@@ -14,7 +14,7 @@ export interface CouponsTableProps {
     data: Array<Coupon>;
     loading: boolean;
     setCoupomId: (id: string | number) => void;
-    showConfirmationModal: (show: boolean) => void;
+    showConfirmationModal: (show: boolean, modalType: "remove" | "edit") => void;
 }
 
 //ENUM

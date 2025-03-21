@@ -1,20 +1,21 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { ProductTableProps } from "../../types/types";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export default function ProductTable({ data, showConfirmationModal, setProductId }: ProductTableProps) {
+
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFiltro, setStatusFiltro] = useState("ATIVO");
     const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
 
-    function handleConfirmationModal(id: string | number) {
+    function handleConfirmationModal(id: string | number, modalType: "remove" | "edit") {
         setProductId(id);
-        showConfirmationModal(true);
+        showConfirmationModal(true, modalType);
     }
 
     function renderIcon(icon: string) {
@@ -82,8 +83,8 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
                     <TableRow>
                         {[
                             { key: "id", label: "Id" },
-                            { key: "descricao", label: "Descrição" },
-                            { key: "resolucao", label: "Resolução" },
+                            { key: "descricao", label: "Título" },
+                            { key: "resolucao", label: "Descrição" },
                             { key: "cor", label: "Ícone" },
                             { key: "tempoLimite", label: "Tempo limite" },
                             { key: "valor", label: "Valor" },
@@ -103,15 +104,16 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
                             <TableCell>{item.descricao}</TableCell>
                             <TableCell>{item.resolucao ?? "Não definida"}</TableCell>
                             <TableCell>{renderIcon(item.cor)}</TableCell>
-                            <TableCell>{item.tempoLimite}</TableCell>
+                            <TableCell>{item.tempoLimite} hora(s)</TableCell>
                             <TableCell>{item.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</TableCell>
                             <TableCell>{item.status ?? "Sem status definido"}</TableCell>
-                            <TableCell>
-                                <div className="flex gap-2">
-                                    <Button variant="destructive" size="icon" onClick={() => handleConfirmationModal(item.id)}>
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </div>
+                            <TableCell className="flex gap-2">
+                                <Button title="Editar" variant="outline" size="icon" onClick={() => handleConfirmationModal(item.id, "edit")}>
+                                    <Edit className="h-4 w-4" />
+                                </Button>
+                                <Button title="Excluir" variant="destructive" size="icon" onClick={() => handleConfirmationModal(item.id, "remove")}>
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}
