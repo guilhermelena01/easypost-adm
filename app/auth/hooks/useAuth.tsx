@@ -49,7 +49,7 @@ export default function useAuth() {
                     urlFoto: res.urlFoto
                 })
                 saveTokenAndExpiration(res.token)
-                router.push("/dashboard")
+                router.push("/financeiro")
             })
             .catch((error) => {
                 setLoading(false);
