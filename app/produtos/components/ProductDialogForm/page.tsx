@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { LoaderCircle, Plus } from "lucide-react";
+import { Icon, LoaderCircle, Plus, SquareArrowOutUpRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Product } from "../../types/types";
 import { formatCurrency } from "@/lib/utils/utils";
 import ProductIconPicker from "../ProductIconPicker/page";
+import Link from "next/link";
 
 interface ProductDialogFormProps {
     handleProduct: () => void;
@@ -18,10 +19,12 @@ interface ProductDialogFormProps {
     setOpen: (open: boolean) => void;
     edit?: boolean;
     setEdit?: (edit: string) => void;
+    editPayload: any;
 }
 
-export default function ProductDialogForm({ handlePayload, handleProduct, loading, open, setOpen, edit, setEdit }: ProductDialogFormProps) {
-
+export default function ProductDialogForm({ handlePayload, handleProduct, loading, open, setOpen, edit, setEdit, editPayload }: ProductDialogFormProps) {
+    const [focused, setFocused] = useState(false)
+    const [modalOpen, setModalOpen] = useState(false)
     const [productPayload, setProductPayload] = useState<Product>({
         cor: "",
         descricao: "",
@@ -34,19 +37,30 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
         handlePayload(productPayload)
     }, [productPayload])
 
+    useEffect(() => {
+        setProductPayload({
+            cor: (editPayload && editPayload.length > 0) ? editPayload[0].cor : "",
+            descricao: (editPayload && editPayload.length > 0) ? editPayload[0].descricao : "",
+            resolucao: (editPayload && editPayload.length > 0) ? editPayload[0].resolucao : "",
+            tempoLimite: (editPayload && editPayload.length > 0) ? editPayload[0].tempoLimite : "",
+            valor: (editPayload && editPayload.length > 0) ? editPayload[0].valor : "",
+        })
+    }, [edit])
+
     function getProductIcon(icon: string) {
         setProductPayload({ ...productPayload, cor: icon })
     }
 
     function handleModal(show: boolean) {
         setOpen(show)
+        setModalOpen(show)
         edit && setEdit!("")
     }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="fixed right-8 bottom-8">
-                <Button onClick={() => setOpen(true)}>
+                <Button onClick={() => handleModal(true)}>
                     <Plus />
                     Novo produto
                 </Button>
@@ -75,8 +89,9 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
                         <Input
                             className="col-span-3"
                             maxLength={18}
-                            value={formatCurrency(productPayload.valor)}
+                            value={modalOpen || edit && focused ? formatCurrency(productPayload.valor) : productPayload.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                             onChange={(e) => setProductPayload({ ...productPayload, valor: e.target.value })}
+                            onFocus={() => setFocused(true)}
                             placeholder="Insira o valor do produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -85,6 +100,7 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
                         </Label>
                         <Input
                             type="number"
+                            min={0}
                             value={productPayload.tempoLimite}
                             onChange={(e) => setProductPayload({ ...productPayload, tempoLimite: e.target.value })}
                             className="col-span-3"
@@ -101,7 +117,19 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
                             placeholder="Insira uma descrição para o produto"
                             className="col-span-3" />
                     </div>
-                    <ProductIconPicker handlePayload={getProductIcon} />
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="username" className="flex items-center gap-1">
+                            Ícone
+                            <Link href={"https://lucide.dev/icons/"} target="_blank" className="">
+                                <SquareArrowOutUpRight width={10} height={10}/>
+                            </Link>
+                        </Label>
+                        <Input
+                            value={productPayload.cor}
+                            onChange={(e) => setProductPayload({ ...productPayload, cor: e.target.value })}
+                            placeholder="Insira o nome do ícone escolhido para o produto"
+                            className="col-span-3" />
+                    </div>
                 </div>
                 <DialogFooter>
                     <DialogClose>

@@ -46,14 +46,11 @@ export default function UseProduct() {
         }
         restClient.handleEditProducts(payloadToSend, productId)
             .then((res) => {
-                if (res === null) { // Caso de sucesso (204 No Content)
-                    setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL);
-                    return;
-                }
                 if (res.status === 400) { // Caso de erro tratado pela API
                     toast.error(res.detail);
                     return;
                 }
+                setRegisterStatus(EnumRegisterProductStatus.REGISTER_SUCCESSFULL)
             })
             .catch(() => setRegisterStatus(EnumRegisterProductStatus.REGISTER_UNSUCCESSFULL))
             .finally(() => {
@@ -81,6 +78,7 @@ export default function UseProduct() {
     }
 
     useEffect(() => {
+        console.log(registerStatus)
         if (registerStatus == EnumRegisterProductStatus.REGISTER_SUCCESSFULL || registerStatus == EnumRegisterProductStatus.DELETED_SUCCESSFULL) {
             getProducts()
             setRegisterStatus("")

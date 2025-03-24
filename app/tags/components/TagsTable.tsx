@@ -80,7 +80,6 @@ export default function TagTable({ data, showConfirmationModal, setTagId }: Tags
                     <TableRow>
                         {[
                             { key: "id", label: "Id" },
-                            { key: "descricao", label: "Descrição" },
                             { key: "sigla", label: "Sigla" },
                             { key: "cor", label: "Cor" },
                             { key: "status", label: "Status" }
@@ -96,9 +95,8 @@ export default function TagTable({ data, showConfirmationModal, setTagId }: Tags
                     {filteredData.map((item, idx) => (
                         <TableRow key={idx}>
                             <TableCell>{item.id}</TableCell>
-                            <TableCell>{item.descricao}</TableCell>
                             <TableCell>{item.sigla}</TableCell>
-                            <TableCell>{handleColor(item.cor)}</TableCell>
+                            <TableCell>{item.cor ? handleColor(item.cor) : "Sem cor definida"}</TableCell>
                             <TableCell>{item.status ?? "Sem status definido"}</TableCell>
                             <TableCell className="flex gap-2">
                                 <Button title="Editar" variant="outline" size="icon" onClick={() => handleConfirmationModal(item.id, "edit")}>

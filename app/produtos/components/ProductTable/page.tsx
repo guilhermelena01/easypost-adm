@@ -19,12 +19,20 @@ export default function ProductTable({ data, showConfirmationModal, setProductId
     }
 
     function renderIcon(icon: string) {
-        const IconComponent = require("lucide-react")[icon];
+        const formattedIcon = icon
+            .split("-")
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join("");
+
+        const IconComponent = require("lucide-react")[formattedIcon];
+
         if (!IconComponent) {
             return "Sem ícone definido";
         }
+
         return <IconComponent size={20} color="#3b3a3d" />;
     }
+
 
     function handleSort(key: string) {
         let direction = "ascending";

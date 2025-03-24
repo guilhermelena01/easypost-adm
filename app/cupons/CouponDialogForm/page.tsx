@@ -18,9 +18,11 @@ interface CouponDialogFormProps {
     setOpen: (open: boolean) => void;
     edit?: boolean;
     setEdit?: (edit: string) => void;
+    editPayload: any;
 }
 
-export default function CouponDialogForm({ handlePayload, handleCoupon, loading, open, setOpen, edit, setEdit }: CouponDialogFormProps) {
+export default function CouponDialogForm({ handlePayload, handleCoupon, loading, open, setOpen, edit, setEdit, editPayload }: CouponDialogFormProps) {
+    const [focused, setFocused] = useState(false)
 
     const [couponPayload, setCouponPayload] = useState({
         codigo: "",
@@ -33,9 +35,22 @@ export default function CouponDialogForm({ handlePayload, handleCoupon, loading,
         handlePayload(couponPayload)
     }, [couponPayload])
 
+    useEffect(() => {
+        setCouponPayload({
+            codigo: (editPayload && editPayload.length > 0) ? editPayload[0].codigo : "",
+            quantidade: (editPayload && editPayload.length > 0) ? editPayload[0].quantidade : "",
+            valor: (editPayload && editPayload.length > 0) ? editPayload[0].valor : "",
+            dataValidade: (editPayload && editPayload.length > 0) ? editPayload[0].dataValidade : "",
+        })
+    }, [edit])
+
     function handleModal(show: boolean) {
         setOpen(show)
         edit && setEdit!("")
+    }
+
+    function handleDate(date: string) {
+        setCouponPayload({ ...couponPayload, dataValidade: date })
     }
 
     return (
@@ -79,8 +94,9 @@ export default function CouponDialogForm({ handlePayload, handleCoupon, loading,
                         </Label>
                         <Input
                             className="col-span-3"
-                            value={couponPayload.valor}
-                            onChange={(e) => setCouponPayload({ ...couponPayload, valor: formatCurrency(e.target.value) })}
+                            value={edit && focused ? formatCurrency(couponPayload.valor) : couponPayload.valor.toLocaleString("pt-br")}
+                            onChange={(e) => setCouponPayload({ ...couponPayload, valor: e.target.value })}
+                            onFocus={() => setFocused(true)}
                             placeholder="Insira o valor do cupom" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -88,8 +104,7 @@ export default function CouponDialogForm({ handlePayload, handleCoupon, loading,
                             Data de validade
                         </Label>
                         <DatePickerDemo
-                            value={couponPayload.dataValidade}
-                            onChange={(e) => setCouponPayload({ ...couponPayload, dataValidade: e.target.value })}
+                            handleDate={handleDate}
                             className="col-span-3 w-full"
                         />
                     </div>

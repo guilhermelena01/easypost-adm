@@ -1,7 +1,7 @@
 //TYPE
 export type Tag = {
     id: number;
-    descricao: string;
+    descricao?: string;
     sigla: string;
     cor: string;
     status: string;

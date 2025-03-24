@@ -64,9 +64,7 @@ export function AppSidebar() {
 
   useEffect(() => {
     const href = window.location.href
-    const param = href.split("/").pop()
-
-    setParam(param)
+    setParam(href)
   }, [])
 
   return (
@@ -79,7 +77,7 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem className={`${param == item.title.toLowerCase() && "border-r-4 border-black"}`} key={item.title}>
+                <SidebarMenuItem className={`${param?.includes(item.url) && "border-r-4 border-black"}`} key={item.title}>
                   <SidebarMenuButton asChild>
                     <a className="py-5 px-4" href={item.url}>
                       <item.icon />

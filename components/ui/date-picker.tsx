@@ -10,8 +10,12 @@ import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils/utils"
 import { Popover, PopoverContent, PopoverTrigger } from "./popover"
 
-export function DatePickerDemo() {
+export function DatePickerDemo({handleDate}: any) {
   const [date, setDate] = React.useState<Date>()
+
+  React.useEffect(() => {
+    handleDate(date)
+  },[date])
 
   return (
     <Popover>

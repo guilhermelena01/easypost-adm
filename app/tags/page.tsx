@@ -55,6 +55,7 @@ export default function Tags() {
                 setTagId={setTagId}
             />
             <TagDialogForm
+                editPayload={tags.filter((item) => item.id == tagId)}
                 handlePayload={setTagPayload}
                 handleTag={modalType == "edit" ? handleEditTags : handleRegisterTags}
                 loading={loading}
@@ -65,16 +66,16 @@ export default function Tags() {
             />
             <Dialog open={showConfirmationModal && modalType == "remove"}>
                 <DialogContent className="w-[420px]">
-                    <DialogTitle>Deseja realmente excluir este produto?</DialogTitle>
+                    <DialogTitle>Deseja realmente excluir esta tag?</DialogTitle>
                     <DialogDescription>
-                        Esta opção é irreversível e definitiva. Você tem certeza que quer excluir permanentemente este produto da nossa base de dados?
+                        Esta opção é irreversível e definitiva. Você tem certeza que quer excluir permanentemente esta tag da nossa base de dados?
                     </DialogDescription>
                     <DialogFooter>
                         <Button type="button" variant={"ghost"} onClick={() => setShowConfirmationModal(false)}>
                             Cancelar
                         </Button>
                         <Button onClick={handleDeleteTags} variant={"destructive"}>
-                            Excluir produto
+                            Excluir tag
                         </Button>
                     </DialogFooter>
                 </DialogContent>

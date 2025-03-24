@@ -58,6 +58,7 @@ export default function Produtos() {
                 />
             }
             <ProductDialogForm
+                editPayload={products.filter((item) => item.id == productId)}
                 handlePayload={setPayload}
                 handleProduct={modalType == "edit" ? handleEditProducts : handleRegisterProducts}
                 loading={loading}

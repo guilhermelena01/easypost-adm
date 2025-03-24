@@ -64,6 +64,7 @@ export default function Cupons() {
                     setCoupomId={setCoupomId}
                 />}
             <CouponDialogForm
+                editPayload={coupons.filter((item) => item.id == coupomId)}
                 handlePayload={setCouponPayload}
                 handleCoupon={modalType == "edit" ? handleEditCoupons : handleRegisterCoupons}
                 loading={loading}

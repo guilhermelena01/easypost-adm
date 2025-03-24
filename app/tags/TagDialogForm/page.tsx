@@ -17,12 +17,12 @@ interface TagDialogFormProps {
     setOpen: (open: boolean) => void;
     edit?: boolean;
     setEdit?: (edit: string) => void;
+    editPayload: any;
 }
 
-export default function TagDialogForm({ handlePayload, handleTag, loading, open, setOpen, edit, setEdit }: TagDialogFormProps) {
+export default function TagDialogForm({ handlePayload, handleTag, loading, open, setOpen, edit, setEdit, editPayload }: TagDialogFormProps) {
 
     const [tagPayload, setTagPayload] = useState({
-        "descricao": "",
         "sigla": "",
         "cor": ""
     })
@@ -31,6 +31,13 @@ export default function TagDialogForm({ handlePayload, handleTag, loading, open,
         setOpen(show)
         edit && setEdit!("")
     }
+
+    useEffect(() => {
+        setTagPayload({
+            cor: (editPayload && editPayload.length > 0) ? editPayload[0].cor : "",
+            sigla: (editPayload && editPayload.length > 0) ? editPayload[0].sigla : "",
+        })
+    }, [edit])
 
     useEffect(() => {
         handlePayload(tagPayload)
@@ -51,23 +58,13 @@ export default function TagDialogForm({ handlePayload, handleTag, loading, open,
             <DialogContent className="w-full">
                 <DialogHeader>
                     <DialogTitle>
-                    {edit ? "Edição de" : "Cadastrar nova"} tag
+                        {edit ? "Edição de" : "Cadastrar nova"} tag
                     </DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name">
-                            Descrição
-                        </Label>
-                        <Input
-                            className="col-span-3"
-                            value={tagPayload.descricao}
-                            onChange={(e) => setTagPayload({ ...tagPayload, descricao: e.target.value })}
-                            placeholder="Insira a descrição da tag" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="username">
-                            Sigla
+                            Nome
                         </Label>
                         <Input
                             className="col-span-3"
@@ -75,7 +72,9 @@ export default function TagDialogForm({ handlePayload, handleTag, loading, open,
                             onChange={(e) => setTagPayload({ ...tagPayload, sigla: e.target.value })}
                             placeholder="Algo como TAG 123" />
                     </div>
-                    <ColorPickerAdvanced handleSelectedColor={handleSelectedColor} />
+                    <ColorPickerAdvanced
+                        handleSelectedColor={handleSelectedColor}
+                    />
                 </div>
                 <DialogFooter>
                     <DialogClose>
