@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MessagesByIdDialog from "./components/messagesByIdDialog/MessagesByIdDialog";
 import { EnumCloseTicketMessageStatus, EnumRegisterTicketMessageStatus } from "./types/type";
 import TicketFinishDialog from "./components/ticketFinishDialog/TicketFinishDialog";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
 export default function Helpdesk() {
     const {
@@ -30,6 +32,7 @@ export default function Helpdesk() {
     const [showDialogTicketFinish, setShowDialogTicketFinish] = useState(false)
     const [ticketId, setTicketId] = useState(0)
     const [userId, setUserId] = useState(0)
+    const [stompClient, setStompClient] = useState(null);
     const [payloadToFinishTicket, setPayloadToFinishTicket] = useState({
         "razaoFechamento": "",
         "detalhesFechamento": "",
@@ -62,6 +65,24 @@ export default function Helpdesk() {
         }
 
     }, [closeTicketMessagesStatus])
+
+    useEffect(() => {
+        if (!stompClient) return;
+
+        const subscription = stompClient.subscribe(`/topic/ticket.${ticketId}`, (mensagem) => {
+            const novaMensagem = JSON.parse(mensagem.body);
+
+            setTicketMensagensById((mensagensAtuais) => [...mensagensAtuais, novaMensagem]);
+        });
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, [stompClient, ticketId]);
+
+    useEffect(() => {
+        getTicketMensagensById(ticketId)
+    }, [])
 
     useEffect(() => {
         registerTicketMessagesStatus == EnumRegisterTicketMessageStatus.REGISTERSUCCESSFULL && getTicketMensagensById(ticketId)
@@ -122,7 +143,7 @@ export default function Helpdesk() {
                                         </p>
                                     </span>
                                     <span className={`bg-[#77b233] flex items-center gap-2 text-sm h-fit text-white px-4 py-2 rounded-lg ${roboto.className}`}>
-                                        <CheckCircle className="w-4"/>
+                                        <CheckCircle className="w-4" />
                                         FINALIZADO
                                     </span>
                                 </span>
