@@ -12,10 +12,11 @@ interface MensagensByIdProps {
     mensagens: Array<TicketMessagesResponse>;
     ticketId: string;
     open: boolean;
+    loggedUserId?: string;
+    searchingMessage: boolean;
     setMensagens: (msg: any) => void;
     onOpenChange: (open: boolean) => void;
     handleNewMessageTicketId: (message: any) => void;
-    loggedUserId?: string; // Adicionei para identificar o usuário logado
 }
 
 export default function MessagesByIdDialog({
@@ -24,7 +25,8 @@ export default function MessagesByIdDialog({
     onOpenChange,
     handleNewMessageTicketId,
     ticketId,
-    loggedUserId, // Adicione isso às props para verificar o usuário logado
+    loggedUserId,
+    searchingMessage
 }: MensagensByIdProps) {
     const [newMessage, setNewMessage] = useState("");
 
@@ -42,8 +44,9 @@ export default function MessagesByIdDialog({
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-lg w-full">
-                <DialogHeader>
+                <DialogHeader className="flex justify-between">
                     <DialogTitle>Mensagens do Ticket #{ticketId}</DialogTitle>
+                    <p>{searchingMessage ? "Buscando novas mensagens..." : ""}</p>
                 </DialogHeader>
                 <div className="flex flex-col h-[500px] p-4 gap-4">
                     {/* Área de Mensagens */}

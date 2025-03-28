@@ -94,10 +94,10 @@ export default function TagTable({ data, showConfirmationModal, setTagId }: Tags
                 <TableBody>
                     {filteredData.map((item, idx) => (
                         <TableRow key={idx}>
-                            <TableCell>{item.id}</TableCell>
-                            <TableCell>{item.sigla}</TableCell>
-                            <TableCell>{item.cor ? handleColor(item.cor) : "Sem cor definida"}</TableCell>
-                            <TableCell>{item.status ?? "Sem status definido"}</TableCell>
+                            <TableCell className="w-1/4">{item.id}</TableCell>
+                            <TableCell className="w-1/4">{item.sigla}</TableCell>
+                            <TableCell className="w-1/4">{item.cor ? handleColor(item.cor) : "Sem cor definida"}</TableCell>
+                            <TableCell className="w-1/4">{item.status ?? "Sem status definido"}</TableCell>
                             <TableCell className="flex gap-2">
                                 <Button title="Editar" variant="outline" size="icon" onClick={() => handleConfirmationModal(item.id, "edit")}>
                                     <Edit className="h-4 w-4" />

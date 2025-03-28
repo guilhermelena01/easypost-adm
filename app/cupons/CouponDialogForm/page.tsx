@@ -36,12 +36,22 @@ export default function CouponDialogForm({ handlePayload, handleCoupon, loading,
     }, [couponPayload])
 
     useEffect(() => {
-        setCouponPayload({
-            codigo: (editPayload && editPayload.length > 0) ? editPayload[0].codigo : "",
-            quantidade: (editPayload && editPayload.length > 0) ? editPayload[0].quantidade : "",
-            valor: (editPayload && editPayload.length > 0) ? editPayload[0].valor : "",
-            dataValidade: (editPayload && editPayload.length > 0) ? editPayload[0].dataValidade : "",
-        })
+        if (edit) {
+            setCouponPayload({
+                codigo: (editPayload && editPayload.length > 0) ? editPayload[0].codigo : "",
+                quantidade: (editPayload && editPayload.length > 0) ? editPayload[0].quantidade : "",
+                valor: (editPayload && editPayload.length > 0) ? Number(editPayload[0].valor).toFixed(2) : "",
+                dataValidade: (editPayload && editPayload.length > 0) ? editPayload[0].dataValidade : "",
+            })
+        }
+        else {
+            setCouponPayload({
+                codigo: "",
+                quantidade: "",
+                valor: "",
+                dataValidade: "",
+            })
+        }
     }, [edit])
 
     function handleModal(show: boolean) {
@@ -97,6 +107,7 @@ export default function CouponDialogForm({ handlePayload, handleCoupon, loading,
                             value={edit && focused ? formatCurrency(couponPayload.valor) : couponPayload.valor.toLocaleString("pt-br")}
                             onChange={(e) => setCouponPayload({ ...couponPayload, valor: e.target.value })}
                             onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
                             placeholder="Insira o valor do cupom" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">

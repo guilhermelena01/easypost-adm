@@ -33,6 +33,7 @@ export default function Helpdesk() {
     const [ticketId, setTicketId] = useState(0)
     const [userId, setUserId] = useState(0)
     const [stompClient, setStompClient] = useState(null);
+    const [searchingNewMessage, setSearchingNewMessage] = useState(false)
     const [payloadToFinishTicket, setPayloadToFinishTicket] = useState({
         "razaoFechamento": "",
         "detalhesFechamento": "",
@@ -44,14 +45,27 @@ export default function Helpdesk() {
         setTicketId(id)
     }
 
-    function handleShowTicketDialog(id: number) {
-        setTicketId(id)
-        setShowDialogTicketFinish(true)
-    }
-
     function handleFinishTicket() {
         handleCloseTickets(ticketId, payloadToFinishTicket)
         setPayloadToFinishTicket({})
+    }
+
+    useEffect(() => {
+        if (!showMessagesDialog) return; // Só executa se o modal estiver aberto
+
+        const interval = setInterval(() => {
+            setShowMessagesDialog(false); // Fecha o modal
+            setTimeout(() => {
+                setShowMessagesDialog(true); // Reabre após 500ms
+            }, 0.5);
+        }, 2000); // A cada 2s, ele passa pelo ciclo
+
+        return () => clearInterval(interval); // Limpa quando desmontar ou fechar o modal
+    }, [showMessagesDialog]); // Depende do estado do modal
+
+    function handleShowTicketDialog(id: number) {
+        setTicketId(id);
+        setShowMessagesDialog(true); // Abre o modal
     }
 
     useEffect(() => {
@@ -95,6 +109,7 @@ export default function Helpdesk() {
                 <div className="w-full flex justify-between">
                     <h2 className={`text-lg font-semibold ${montserrat.className}`}>Histórico de chamados</h2>
                 </div>
+                {console.log(showMessagesDialog)}
                 <div className="w-full flex flex-col">
                     <Tabs defaultValue={"ativos"}>
                         <TabsList>
@@ -159,6 +174,7 @@ export default function Helpdesk() {
                     onOpenChange={setShowMessagesDialog}
                     handleNewMessageTicketId={handleRegisterMessageTicketId}
                     loggedUserId={userId.id}
+                    searchingMessage={searchingNewMessage}
                 />
 
                 <TicketFinishDialog

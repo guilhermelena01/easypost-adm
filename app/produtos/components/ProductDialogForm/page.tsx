@@ -38,14 +38,24 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
     }, [productPayload])
 
     useEffect(() => {
-        setProductPayload({
-            cor: (editPayload && editPayload.length > 0) ? editPayload[0].cor : "",
-            descricao: (editPayload && editPayload.length > 0) ? editPayload[0].descricao : "",
-            resolucao: (editPayload && editPayload.length > 0) ? editPayload[0].resolucao : "",
-            tempoLimite: (editPayload && editPayload.length > 0) ? editPayload[0].tempoLimite : "",
-            valor: (editPayload && editPayload.length > 0) ? editPayload[0].valor : "",
-        })
-    }, [edit])
+        if (edit) {
+            setProductPayload({
+                cor: (editPayload && editPayload.length > 0) ? editPayload[0].cor : "",
+                descricao: (editPayload && editPayload.length > 0) ? editPayload[0].descricao : "",
+                resolucao: (editPayload && editPayload.length > 0) ? editPayload[0].resolucao : "",
+                tempoLimite: (editPayload && editPayload.length > 0) ? editPayload[0].tempoLimite : "",
+                valor: (editPayload && editPayload.length > 0) ? Number(editPayload[0].valor).toFixed(2) : "",
+            })
+        } else {
+            setProductPayload({
+                cor: "",
+                descricao: "",
+                resolucao: "",
+                tempoLimite: "",
+                valor: "",
+            })
+        }
+    }, [edit, open])
 
     function getProductIcon(icon: string) {
         setProductPayload({ ...productPayload, cor: icon })
@@ -92,6 +102,7 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
                             value={modalOpen || edit && focused ? formatCurrency(productPayload.valor) : productPayload.valor.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                             onChange={(e) => setProductPayload({ ...productPayload, valor: e.target.value })}
                             onFocus={() => setFocused(true)}
+                            onBlur={() => setFocused(false)}
                             placeholder="Insira o valor do produto" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -121,7 +132,7 @@ export default function ProductDialogForm({ handlePayload, handleProduct, loadin
                         <Label htmlFor="username" className="flex items-center gap-1">
                             Ícone
                             <Link href={"https://lucide.dev/icons/"} target="_blank" className="">
-                                <SquareArrowOutUpRight width={10} height={10}/>
+                                <SquareArrowOutUpRight width={10} height={10} />
                             </Link>
                         </Label>
                         <Input
